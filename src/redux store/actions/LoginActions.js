@@ -1,16 +1,18 @@
 import * as actionTypes from "../ActionConstants";
+import * as Constants from "../URLConstants";
 import axios from "axios";
+import { getJsonFromUrl } from "../../common/utilities";
 
 export const authenticationStart = () => {
   return {
     type: actionTypes.AUTHENTICATION_START,
   };
 };
-export const authenticationSuccess = (token, userId) => {
+
+export const authenticationSuccess = (token) => {
   return {
     type: actionTypes.AUTHENTICATION_SUCCESS,
     token: token,
-    userId: userId,
   };
 };
 
@@ -23,8 +25,8 @@ export const authenticationError = (error) => {
 
 export const authenticationLogout = () => {
   localStorage.removeItem("token");
-  localStorage.removeItem("expirationDate");
-  localStorage.removeItem("userID");
+  // localStorage.removeItem("expirationDate");
+  localStorage.removeItem("state");
   return {
     type: actionTypes.AUTHENTICATION_LOGOUT,
   };
@@ -38,51 +40,78 @@ export const checkAuthenticationTimeout = (expirationTime) => {
   };
 };
 
-export const authenticate = (email, password, isSignedUp) => {
+export const authenticate = (code) => {
   return (dispatch) => {
-    const authenticationData = {
-      email: email,
-      password: password,
-      returnSecureToken: true,
-    };
     dispatch(authenticationStart());
-
-    let url = "enter here login url";
-    if (!isSignedUp) {
-      url = "enter here sign up url";
-    }
-
+    var url = Constants.GET_ACCESS_TOKEN;
     axios
-      .post(url, authenticationData)
-      .then((res) => {
-        // save token, expiration time and user in local storage
-        // dispatch successfull auth and timeout for expiration date
-        console.log("[LoginAction] Received following data: ", res.data);
+      .get(url, { headers: { Authorization: code } })
+      .then((response) => {
+        var token = response.data.access_token;
+        console.log("Token received from /gettoken: ", token);
+        localStorage.setItem("token", token);
+        dispatch(authenticationSuccess(token));
       })
       .catch((error) => {
-        dispatch(authenticationError(error.response.data.error));
+        dispatch(authenticationError(error));
+      });
+  };
+};
+
+export const connectToSpotifySuccess = (redirectURL, state) => {
+  return {
+    type: actionTypes.SPOTIFY_CONNECT_SUCCESS,
+    redirectURL: redirectURL,
+    checkState: state,
+  };
+};
+
+export const connectToSpotifyError = (error) => {
+  return {
+    type: actionTypes.SPOTIFY_CONNECT_SUCCESS,
+    error: error,
+  };
+};
+
+export const connectToSpotify = () => {
+  return (dispatch) => {
+    let url = Constants.AUTHORIZATION;
+    axios
+      .get(url)
+      .then((response) => {
+        console.log("[LoginAction] Successfully connected to Spotify");
+        if (response.data.url) {
+          let queryParams = getJsonFromUrl(response.data.url);
+          dispatch(
+            connectToSpotifySuccess(response.data.url, queryParams.state)
+          );
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(connectToSpotifyError(error));
       });
   };
 };
 
 export const authenticationCheckState = () => {
-  return (dispatch) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      dispatch(authenticationLogout());
-    } else {
-      const expirationDate = new Date(localStorage.getItem("expirationDate"));
-      if (expirationDate <= new Date()) {
-        dispatch(authenticationLogout());
-      } else {
-        const userId = localStorage.getItem("userId");
-        dispatch(authenticationSuccess(token, userId));
-        dispatch(
-          checkAuthenticationTimeout(
-            expirationDate.getTime() - new Date().getTime() / 1000
-          )
-        );
-      }
-    }
-  };
+  // return (dispatch) => {
+  //   const token = localStorage.getItem("token");
+  //   if (!token) {
+  //     dispatch(authenticationLogout());
+  //   } else {
+  //     const expirationDate = new Date(localStorage.getItem("expirationDate"));
+  //     if (expirationDate <= new Date()) {
+  //       dispatch(authenticationLogout());
+  //     } else {
+  //       const state = localStorage.getItem("state");
+  //       dispatch(authenticationSuccess(token, state));
+  //       dispatch(
+  //         checkAuthenticationTimeout(
+  //           expirationDate.getTime() - new Date().getTime() / 1000
+  //         )
+  //       );
+  //     }
+  //   }
+  // };
 };

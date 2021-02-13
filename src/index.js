@@ -3,21 +3,26 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import {ThemeProvider} from "@material-ui/core";
-import {Provider} from "react-redux";
-import {combineReducers, createStore,applyMiddleware, compose} from "redux";
+import { ThemeProvider } from "@material-ui/core";
+import { Provider } from "react-redux";
+import { combineReducers, createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
-import LoginReducer from './redux store/reducers/LoginReducer';
+import LoginReducer from "./redux store/reducers/LoginReducer";
+import UserReducer from "./redux store/reducers/UserReducer";
 
 import "./index.css";
 import myTheme from "./materialTheme";
 
 const rootReducer = combineReducers({
-  login: LoginReducer
-})
+  login: LoginReducer,
+  user: UserReducer,
+});
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
+const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 
 const app = (
   <Provider store={store}>
