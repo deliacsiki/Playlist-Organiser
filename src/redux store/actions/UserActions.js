@@ -5,13 +5,13 @@ import axios from "axios";
 
 export const getUserDataStart = () => {
   return {
-    type: actionTypes.USER_DATA_START,
+    type: actionTypes.GET_USER_DATA_START,
   };
 };
 
 export const getUserDataSuccess = ({ id, displayName, email, rooms }) => {
   return {
-    type: actionTypes.USER_DATA_SUCCESS,
+    type: actionTypes.GET_USER_DATA_SUCCESS,
     userId: id,
     displayName: displayName,
     email: email,
@@ -21,7 +21,7 @@ export const getUserDataSuccess = ({ id, displayName, email, rooms }) => {
 
 export const getUserDataError = (error) => {
   return {
-    type: actionTypes.USER_DATA_ERROR,
+    type: actionTypes.GET_USER_DATA_ERROR,
     error: error,
   };
 };
@@ -41,6 +41,28 @@ export const getUserData = () => {
       .catch((error) => {
         console.log(error);
         dispatch(getUserDataError(error));
+      });
+  };
+};
+
+export const deleteRoomSuccess = (roomId) => {
+  return {
+    type: actionTypes.UPDATE_USER_ROOMS,
+    deletedRoomId: roomId,
+  };
+};
+
+export const deleteUserRoom = (roomId) => {
+  return (dispatch) => {
+    let url = Constants.DELETE_ROOM.replace("{id}", roomId);
+    axios
+      .delete(url)
+      .then((response) => {
+        console.log(`[RoomAction] Successfully deleted room with id ${roomId}`);
+        dispatch(deleteRoomSuccess(roomId));
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 };

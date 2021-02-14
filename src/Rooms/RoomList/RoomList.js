@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
 import RoomCard from "../RoomCard/RoomCard";
-
+import * as actions from "../../redux store/actions/UserActions";
 import cssClasses from "./RoomList.module.css";
 
 const RoomList = ({ rooms }) => {
+  const dispatch = useDispatch();
+  const deleteRoom = useCallback(
+    (roomId) => dispatch(actions.deleteUserRoom(roomId)),
+    []
+  );
+
   const handleAddRoom = (event) => {
     // handle add room button
     event.preventDefault();
@@ -19,6 +26,7 @@ const RoomList = ({ rooms }) => {
     // handle delete room
     event.preventDefault();
     console.log(`Delete room with id ${roomId}`);
+    deleteRoom(roomId);
   };
 
   return (

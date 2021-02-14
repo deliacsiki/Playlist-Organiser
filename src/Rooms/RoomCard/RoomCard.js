@@ -16,18 +16,16 @@ const RoomCard = ({ name, type = null, clickHandler, deleteHandler }) => {
   }
 
   var deleteBtn = (
-    <Button
-      className={cssClasses.DeleteBtn}
-      size={"small"}
-      onClick={deleteHandler}
-    >
+    <div className={cssClasses.DeleteBtn} onClick={deleteHandler}>
       -
-    </Button>
+    </div>
   );
 
   return (
-    <div className={classes.join(" ")} onClick={clickHandler}>
-      {content}
+    <div className={cssClasses.CardContainer}>
+      <div className={classes.join(" ")} onClick={clickHandler}>
+        {content}
+      </div>
       {!isPlusCard ? deleteBtn : null}
     </div>
   );

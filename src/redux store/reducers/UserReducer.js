@@ -18,26 +18,47 @@ const getUserDataError = (state, { error }) => {
   return updateObject(state, { error: error, loading: false });
 };
 
-const getUserDataSuccess = (state, { userId, displayName, email, userRooms }) => {
+const getUserDataSuccess = (
+  state,
+  { userId, displayName, email, userRooms }
+) => {
+  localStorage.setItem("userId", userId);
+
   return updateObject(state, {
     userId: userId,
     displayName: displayName,
     loading: false,
     email: email,
-    userRooms: userRooms
+    userRooms: userRooms,
+  });
+};
+
+const updateUserRooms = (state, { deletedRoomId }) => {
+  var roomToBeDeleted = state.userRooms.find(
+    (room) => room._id === deletedRoomId
+  );
+  var hardCopy = [...state.userRooms];
+  hardCopy.splice(hardCopy.indexOf(roomToBeDeleted), 1);
+  return updateObject(state, {
+    userRooms: hardCopy,
+    loading: false,
+    error: null,
   });
 };
 
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.USER_DATA_START:
+    case actionTypes.GET_USER_DATA_START:
       return getUserDataStart(state, action);
 
-    case actionTypes.USER_DATA_ERROR:
+    case actionTypes.GET_USER_DATA_ERROR:
       return getUserDataError(state, action);
 
-    case actionTypes.USER_DATA_SUCCESS:
+    case actionTypes.GET_USER_DATA_SUCCESS:
       return getUserDataSuccess(state, action);
+
+    case actionTypes.UPDATE_USER_ROOMS:
+      return updateUserRooms(state, action);
 
     default:
       return state;

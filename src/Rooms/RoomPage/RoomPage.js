@@ -56,7 +56,7 @@ const RoomPage = (props) => {
           {displayName ? `Welcome, ${displayName}` : null}
         </div>
 
-        <RoomList rooms={userRooms} />
+        <RoomList rooms={userRooms}/>
       </div>
     </React.Fragment>
   );
