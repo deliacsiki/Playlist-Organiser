@@ -9,11 +9,13 @@ export const getUserDataStart = () => {
   };
 };
 
-export const getUserDataSuccess = ({ id, display_name }) => {
+export const getUserDataSuccess = ({ id, displayName, email, rooms }) => {
   return {
     type: actionTypes.USER_DATA_SUCCESS,
     userId: id,
-    displayName: display_name,
+    displayName: displayName,
+    email: email,
+    userRooms: rooms,
   };
 };
 

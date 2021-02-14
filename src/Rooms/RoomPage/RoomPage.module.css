@@ -1,0 +1,22 @@
+.App {
+  height: 100vh;
+  width: 100%;
+  align-items: center;
+  color: #333333;
+}
+
+.Header {
+  height: 5%;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0px 6px 32px 5px rgba(0, 0, 0, 0.2);
+}
+
+.Coming-Soon {
+  font-family: "Raleway", sans-serif;
+}

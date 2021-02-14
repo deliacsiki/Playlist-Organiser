@@ -4,6 +4,8 @@ import { updateObject } from "../../common/utilities";
 const initialState = {
   userId: null,
   displayName: null,
+  email: null,
+  userRooms: null,
   loading: false,
   error: null,
 };
@@ -16,11 +18,13 @@ const getUserDataError = (state, { error }) => {
   return updateObject(state, { error: error, loading: false });
 };
 
-const getUserDataSuccess = (state, { userId, displayName }) => {
+const getUserDataSuccess = (state, { userId, displayName, email, userRooms }) => {
   return updateObject(state, {
     userId: userId,
     displayName: displayName,
     loading: false,
+    email: email,
+    userRooms: userRooms
   });
 };
 

@@ -48,7 +48,6 @@ export const authenticate = (code) => {
       .get(url, { headers: { Authorization: code } })
       .then((response) => {
         var token = response.data.access_token;
-        console.log("Token received from /gettoken: ", token);
         localStorage.setItem("token", token);
         dispatch(authenticationSuccess(token));
       })
@@ -88,7 +87,6 @@ export const connectToSpotify = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
         dispatch(connectToSpotifyError(error));
       });
   };

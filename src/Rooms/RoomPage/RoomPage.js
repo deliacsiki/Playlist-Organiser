@@ -2,8 +2,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import * as loginActions from "../../redux store/actions/LoginActions";
 import * as userActions from "../../redux store/actions/UserActions";
+import RoomList from "../RoomList/RoomList";
 
-import "./RoomPage.css";
+import cssClasses from "./RoomPage.module.css";
 
 const RoomPage = (props) => {
   const dispatch = useDispatch();
@@ -24,12 +25,12 @@ const RoomPage = (props) => {
   const loading = useSelector((state) => state.login.loading);
   // const checkState = useSelector((state) => state.login.stateReceived);
   const displayName = useSelector((state) => state.user.displayName);
+  const userRooms = useSelector((state) => state.user.userRooms);
 
   useEffect(() => {
     // get URL params
     const params = new URLSearchParams(window.location.search);
     let token = params.get("code");
-    console.log(token);
     if (token === null && localStorage.getItem("token") === null) {
       // redirect to login
       window.location.href = "http://localhost:3000";
@@ -50,14 +51,12 @@ const RoomPage = (props) => {
 
   return (
     <React.Fragment>
-      <div className="App">
-        <h1>
-          {isAuthenticated
-            ? "AUTHENTICATION SUCCESSFUL"
-            : "AUTHENTICATION FAIL"}
-        </h1>
-        {displayName ? `Welcome, ${displayName}` : null}
-        {loading ? <div className="loader">Loading...</div> : null}
+      <div className={cssClasses.App}>
+        <div className={cssClasses.Header}>
+          {displayName ? `Welcome, ${displayName}` : null}
+        </div>
+
+        <RoomList rooms={userRooms} />
       </div>
     </React.Fragment>
   );
