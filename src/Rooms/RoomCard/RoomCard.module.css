@@ -5,17 +5,19 @@
 .RoomCard {
   height: 200px;
   width: 200px;
+  border-radius: 10px;
   margin: 1rem;
   display: flex;
-  align-items: center;
   justify-content: center;
   text-align: center;
+  transition: 0.2s;
   box-shadow: 8px 8px 13px -5px rgba(0, 0, 0, 0.48);
 }
 
 .PlusCard {
   background-color: #9b51e0;
   font-weight: bolder;
+  align-items: center;
   color: white;
   border: 0;
 }
@@ -40,20 +42,27 @@
 .DeleteBtn {
   display: block;
   text-align: center;
-  border-radius: 32px;
+  border-radius: 10px;
   position: absolute;
-  bottom: 0;
-  right: 0;
-  background-color: red;
+  bottom: 20px;
+  right: 20px;
+  background-color: transparent;
+  border: 2px solid white;
   padding: 0.2rem;
   color: white;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   font-weight: bolder;
   z-index: 10;
+  transition: 0.2s;
 }
 
-.DeleteBtn:hover{
-  background-color: rgb(230, 81, 81);
+.DeleteBtn:hover {
+  background-color: rgba(255, 255, 255, 0.39);
   cursor: pointer;
+}
+
+.DeleteIcon {
+  width: inherit;
+  height: inherit;
 }
