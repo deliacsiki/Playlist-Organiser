@@ -1,12 +1,12 @@
+import { Button } from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import * as loginActions from "../../redux store/actions/LoginActions";
 import * as userActions from "../../redux store/actions/UserActions";
-import RoomList from "../RoomList/RoomList";
 
-import cssClasses from "./RoomPage.module.css";
+import cssClasses from "./PlaylistPage.module.css";
 
-const RoomPage = (props) => {
+const PlaylistPage = (props) => {
   const dispatch = useDispatch();
   // get login dispatchers
   const authenticate = useCallback(
@@ -28,19 +28,9 @@ const RoomPage = (props) => {
   const userRooms = useSelector((state) => state.user.userRooms);
 
   useEffect(() => {
-    // get URL params if any
-    if (window.location.search.length != 0) {
-      const params = new URLSearchParams(window.location.search);
-      let token = params.get("code");
-      if (token === null && localStorage.getItem("token") === null) {
-        // redirect to login
-        window.location.href = "http://localhost:3000";
-      }
-      // authenticate user
-      authenticate(token);
-    } else {
-      getUserDetails();
-    }
+    // get URL params
+    const params = new URLSearchParams(window.location.search);
+    console.log(params);
   }, []);
 
   useEffect(() => {
@@ -49,15 +39,14 @@ const RoomPage = (props) => {
     }
   }, [isAuthenticated]);
 
+  const handleBackButton = () => {
+    window.location.href = "http://localhost:3000/home";
+  };
+
   return (
     <React.Fragment>
-      <div className={cssClasses.App}>
-        <div className={cssClasses.Header}>
-          {displayName ? `Welcome, ${displayName}` : null}
-        </div>
-
-        <RoomList rooms={userRooms} />
-      </div>
+      <div>Playlist page</div>
+      <Button onClick={handleBackButton}>Back</Button>
     </React.Fragment>
   );
 };
@@ -73,4 +62,4 @@ const mapDispatchToProps = (state) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RoomPage);
+export default connect(mapStateToProps, mapDispatchToProps)(PlaylistPage);

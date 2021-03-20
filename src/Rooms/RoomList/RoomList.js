@@ -20,6 +20,7 @@ const RoomList = ({ rooms }) => {
     // handle open room
     event.preventDefault();
     console.log(`Clicked room with id ${roomId}`);
+    window.location.href = "http://localhost:3000/room/" + roomId;
   };
 
   const handleDeleteRoom = (event, roomId) => {
