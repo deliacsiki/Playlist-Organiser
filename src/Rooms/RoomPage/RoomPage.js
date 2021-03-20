@@ -1,8 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
+
+import RoomList from "../RoomList/RoomList";
+
 import * as loginActions from "../../redux store/actions/LoginActions";
 import * as userActions from "../../redux store/actions/UserActions";
-import RoomList from "../RoomList/RoomList";
+import * as URLConstants from "../../redux store/URLConstants";
 
 import cssClasses from "./RoomPage.module.css";
 
@@ -34,7 +37,7 @@ const RoomPage = (props) => {
       let token = params.get("code");
       if (token === null && localStorage.getItem("token") === null) {
         // redirect to login
-        window.location.href = "http://localhost:3000";
+        window.location.href = `${URLConstants.LOCALHOST_URL_CLIENT}`;
       }
       // authenticate user
       authenticate(token);
@@ -49,6 +52,10 @@ const RoomPage = (props) => {
     }
   }, [isAuthenticated]);
 
+  const addNewRoomHandler = () => {
+    console.log("New room soon to be added");
+  };
+
   return (
     <React.Fragment>
       <div className={cssClasses.App}>
@@ -56,7 +63,7 @@ const RoomPage = (props) => {
           {displayName ? `Welcome, ${displayName}` : null}
         </div>
 
-        <RoomList rooms={userRooms} />
+        <RoomList rooms={userRooms} submitHandler={addNewRoomHandler} />
       </div>
     </React.Fragment>
   );

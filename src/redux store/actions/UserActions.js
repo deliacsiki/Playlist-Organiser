@@ -39,7 +39,11 @@ export const getUserData = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response);
+        if (error.response.status === 401) {
+          // Unauthorized
+          window.location.href = Constants.LOCALHOST_URL_CLIENT;
+        }
         dispatch(getUserDataError(error));
       });
   };
