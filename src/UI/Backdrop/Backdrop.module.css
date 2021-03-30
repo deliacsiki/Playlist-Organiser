@@ -5,14 +5,12 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.48);
-  cursor: pointer;
   transition: 0.2s;
 
   z-index: 10;
 }
 
 .BackdropContent {
-  cursor: auto;
   background-color: white;
   border-radius: 10px;
   min-width: 50%;

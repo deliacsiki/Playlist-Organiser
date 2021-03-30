@@ -53,6 +53,7 @@ export const authenticate = (code) => {
       })
       .catch((error) => {
         dispatch(authenticationError(error));
+        window.location.href = Constants.LOCALHOST_URL_CLIENT;
       });
   };
 };

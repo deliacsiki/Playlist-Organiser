@@ -18,10 +18,7 @@ const getUserDataError = (state, { error }) => {
   return updateObject(state, { error: error, loading: false });
 };
 
-const getUserDataSuccess = (
-  state,
-  { userId, displayName, email, userRooms }
-) => {
+const getUserDataSuccess = (state, { userId, displayName, email }) => {
   localStorage.setItem("userId", userId);
 
   return updateObject(state, {
@@ -29,11 +26,28 @@ const getUserDataSuccess = (
     displayName: displayName,
     loading: false,
     email: email,
-    userRooms: userRooms,
   });
 };
 
-const updateUserRooms = (state, { deletedRoomId }) => {
+const getUserRoomsSuccess = (state, { rooms }) => {
+  return updateObject(state, {
+    userRooms: rooms,
+    loading: false,
+    error: null,
+  });
+};
+
+const createUserRoomSuccess = (state, { room }) => {
+  var hardCopy = [...state.userRooms];
+  hardCopy.push(room);
+  return updateObject(state, {
+    userRooms: hardCopy,
+    loading: false,
+    error: null,
+  });
+};
+
+const deleteRoomSuccess = (state, { deletedRoomId }) => {
   var roomToBeDeleted = state.userRooms.find(
     (room) => room._id === deletedRoomId
   );
@@ -57,8 +71,14 @@ const UserReducer = (state = initialState, action) => {
     case actionTypes.GET_USER_DATA_SUCCESS:
       return getUserDataSuccess(state, action);
 
-    case actionTypes.UPDATE_USER_ROOMS:
-      return updateUserRooms(state, action);
+    case actionTypes.DELETE_ROOM_SUCCESS:
+      return deleteRoomSuccess(state, action);
+
+    case actionTypes.GET_USER_ROOMS_SUCCESS:
+      return getUserRoomsSuccess(state, action);
+
+    case actionTypes.CREATE_ROOM_SUCCESS:
+      return createUserRoomSuccess(state, action);
 
     default:
       return state;

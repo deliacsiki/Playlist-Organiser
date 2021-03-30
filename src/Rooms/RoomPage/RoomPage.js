@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 
 import RoomList from "../RoomList/RoomList";

@@ -23,9 +23,9 @@
 }
 
 .AddGradient {
-  font-family: 'Roboto', sans-serif;
   color: white;
-  font-weight: bolder;
+  font-size: medium;
+  font-weight: 500;
   background: linear-gradient(
     135deg,
     rgba(2, 0, 36, 1) 0%,

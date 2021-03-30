@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import RoomCard from "../RoomCard/RoomCard";
 import RoomForm from "../RoomForm/RoomForm";
@@ -17,12 +17,13 @@ const RoomList = ({ rooms }) => {
     (roomId) => dispatch(actions.deleteUserRoom(roomId)),
     []
   );
+  const createRoom = useCallback(
+    (room) => dispatch(actions.createNewRoom(room)),
+    []
+  );
 
-  const handleToggleBackdrop = (event) => {
-    // toggle backdrop only if you clicked on it
-    if (event.target.className.includes("Backdrop_BackdropBackground")) {
-      setToggleBackdrop(false);
-    }
+  const handleCloseBackdrop = () => {
+    setToggleBackdrop(false);
   };
 
   const handleAddRoom = (event) => {
@@ -45,11 +46,17 @@ const RoomList = ({ rooms }) => {
     deleteRoom(roomId);
   };
 
+  const handleFormSubmit = ({ roomName }) => {
+    setToggleBackdrop(false);
+    // dispatch add room action
+    createRoom({ roomName: roomName });
+  };
+
   return (
     <div className={cssClasses.RoomList}>
       {toggleBackdrop ? (
-        <Backdrop toggleBackdrop={(event) => handleToggleBackdrop(event)}>
-          <RoomForm />
+        <Backdrop toggleBackdrop={handleCloseBackdrop}>
+          <RoomForm submitHandler={(value) => handleFormSubmit(value)} />
         </Backdrop>
       ) : null}
       <RoomCard

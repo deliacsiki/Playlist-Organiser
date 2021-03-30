@@ -1,12 +1,16 @@
-import { Button } from "@material-ui/core";
+import { Button, Container } from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import * as loginActions from "../../redux store/actions/LoginActions";
 import * as userActions from "../../redux store/actions/UserActions";
+import Backdrop from "../../UI/Backdrop/Backdrop";
 
+import BrowseSongsList from "../BrowseSongsList/BrowseSongsList";
 import cssClasses from "./PlaylistPage.module.css";
 
 const PlaylistPage = (props) => {
+  const [toggleBackdrop, setToggleBackdrop] = useState(false);
+
   const dispatch = useDispatch();
   // get login dispatchers
   const authenticate = useCallback(
@@ -43,10 +47,44 @@ const PlaylistPage = (props) => {
     window.location.href = "http://localhost:3000/home";
   };
 
+  const handleAddSong = () => {
+    setToggleBackdrop(true);
+  };
+
+  const handleCloseBackdrop = () => {
+    setToggleBackdrop(false);
+  };
+
   return (
     <React.Fragment>
-      <div>Playlist page</div>
-      <Button onClick={handleBackButton}>Back</Button>
+      {toggleBackdrop ? (
+        <Backdrop toggleBackdrop={handleCloseBackdrop}>
+          <div>Browse your favourite songs</div>
+          <BrowseSongsList />
+        </Backdrop>
+      ) : null}
+      {loading ? `<p>Loading...</p>` : null}
+      <div className={cssClasses.NavBar}>
+        <p>Playlist page</p>
+        <Button onClick={handleAddSong}>Add a song</Button>
+        <Button onClick={handleBackButton}>Back</Button>
+      </div>
+      <div className={cssClasses.PlaylistPage}>
+        <div className={cssClasses.CurrentSongSection}>
+          <p>Currently playing</p>
+          <Container className={cssClasses.CurrentSongContainer}>
+            {/* current song */}
+            <p>Song Name</p>
+            <p>Artist Name</p>
+          </Container>
+        </div>
+        <div className={cssClasses.SongQueueSection}>
+          <p>Songs in queue</p>
+          <Container className={cssClasses.SongQueue}>
+            {/* songs in queue */}
+          </Container>
+        </div>
+      </div>
     </React.Fragment>
   );
 };
