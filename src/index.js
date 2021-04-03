@@ -9,6 +9,7 @@ import { combineReducers, createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import LoginReducer from "./redux store/reducers/LoginReducer";
 import UserReducer from "./redux store/reducers/UserReducer";
+import PlaylistReducer from "./redux store/reducers/PlaylistReducer";
 
 import "./index.css";
 import myTheme from "./materialTheme";
@@ -16,6 +17,7 @@ import myTheme from "./materialTheme";
 const rootReducer = combineReducers({
   login: LoginReducer,
   user: UserReducer,
+  playlist: PlaylistReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

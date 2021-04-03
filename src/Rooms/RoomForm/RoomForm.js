@@ -59,7 +59,6 @@ const RoomForm = ({ submitHandler }) => {
       <Input
         id="room-name"
         aria-describedby="room-name-helper"
-        required
         error={fields.roomName.error != ""}
         onChange={(event) =>
           setFields({ roomName: { value: event.target.value } })

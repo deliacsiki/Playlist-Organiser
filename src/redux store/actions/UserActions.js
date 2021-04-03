@@ -1,6 +1,5 @@
 import * as actionTypes from "../ActionConstants";
 import * as Constants from "../URLConstants";
-import { getJsonFromUrl } from "../../common/utilities";
 import axios from "axios";
 
 // get data about user

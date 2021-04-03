@@ -12,12 +12,7 @@ const PlaylistPage = (props) => {
   const [toggleBackdrop, setToggleBackdrop] = useState(false);
 
   const dispatch = useDispatch();
-  // get login dispatchers
-  const authenticate = useCallback(
-    (token) => dispatch(loginActions.authenticate(token)),
-    []
-  );
-  // get use dispatchers
+  // get user dispatchers
   const getUserDetails = useCallback(
     () => dispatch(userActions.getUserData()),
     []
@@ -26,10 +21,6 @@ const PlaylistPage = (props) => {
   const isAuthenticated = useSelector((state) => {
     return state.login.token != null;
   });
-  const loading = useSelector((state) => state.login.loading);
-  // const checkState = useSelector((state) => state.login.stateReceived);
-  const displayName = useSelector((state) => state.user.displayName);
-  const userRooms = useSelector((state) => state.user.userRooms);
 
   useEffect(() => {
     // get URL params
@@ -63,7 +54,6 @@ const PlaylistPage = (props) => {
           <BrowseSongsList />
         </Backdrop>
       ) : null}
-      {loading ? `<p>Loading...</p>` : null}
       <div className={cssClasses.NavBar}>
         <p>Playlist page</p>
         <Button onClick={handleAddSong}>Add a song</Button>

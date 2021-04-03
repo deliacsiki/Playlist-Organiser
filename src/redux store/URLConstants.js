@@ -22,3 +22,8 @@ export const GET_ROOMS_BY_OWNER = GET_ROOMS + "/owner/{id}";
 export const GET_ONE_ROOM = LOCALHOST_URL + ROOM_ENDPOINT + "/{id}";
 export const CREATE_ROOM = LOCALHOST_URL + ROOM_ENDPOINT;
 export const DELETE_ROOM = LOCALHOST_URL + ROOM_ENDPOINT + "/{id}";
+
+
+// Playlist
+export const PLAYLIST_ENDPOINT = "/playlist";
+export const SEARCH_FOR_SONG = LOCALHOST_URL + PLAYLIST_ENDPOINT + '/search/{:song}';

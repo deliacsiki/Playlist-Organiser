@@ -25,14 +25,13 @@ const RoomPage = (props) => {
   const isAuthenticated = useSelector((state) => {
     return state.login.token != null;
   });
-  const loading = useSelector((state) => state.login.loading);
   // const checkState = useSelector((state) => state.login.stateReceived);
   const displayName = useSelector((state) => state.user.displayName);
   const userRooms = useSelector((state) => state.user.userRooms);
 
   useEffect(() => {
     // get URL params if any
-    if (window.location.search.length != 0) {
+    if (window.location.search.length !== 0) {
       const params = new URLSearchParams(window.location.search);
       let token = params.get("code");
       if (token === null && localStorage.getItem("token") === null) {
