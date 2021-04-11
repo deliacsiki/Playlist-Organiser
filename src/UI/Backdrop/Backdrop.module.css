@@ -10,12 +10,3 @@
   z-index: 10;
 }
 
-.BackdropContent {
-  background-color: white;
-  border-radius: 10px;
-  min-width: 50%;
-  max-width: 80%;
-  height: 80%;
-  margin: 2rem auto;
-  padding: 1rem;
-}
