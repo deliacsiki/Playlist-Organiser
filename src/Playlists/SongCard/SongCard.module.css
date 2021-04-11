@@ -1,0 +1,26 @@
+.SongCard {
+  background-color: #4f4f4f;
+  border-radius: 10px;
+  font-family: "Raleway";
+  font-size: 18px;
+  color: #e5e5e5;
+  padding: 1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  margin-right: 0.2rem;
+  transition: ease-in-out 0.1s;
+}
+
+.SongCard:hover {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.SongCard p {
+  margin: 0;
+}
+
+.SongName {
+  margin: 0;
+  font-weight: bold;
+}
