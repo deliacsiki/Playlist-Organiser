@@ -8,6 +8,7 @@ const initialState = {
   recommendedSongs: null,
   currentSong: null,
   error: null,
+  lastFetchedSong: null,
 };
 
 const searchSongStart = (state) => {
@@ -25,6 +26,14 @@ const searchSongError = (state, { error }) => {
   });
 };
 
+const getTrackSuccess = (state, { song }) => {
+  return updateObject(state, {
+    lastFetchedSong: song,
+    error: null,
+    loading: false,
+  });
+};
+
 const PlaylistReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SEARCH_SONG_START:
@@ -34,8 +43,10 @@ const PlaylistReducer = (state = initialState, action) => {
       return searchSongSuccess(state, action);
 
     case actionTypes.SEARCH_SONG_ERROR:
-      console.log(action);
       return searchSongError(state, action);
+
+    case actionTypes.GET_TRACK_SUCCESS:
+      return getTrackSuccess(state, action);
 
     default:
       return state;

@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import * as loginActions from "../../redux store/actions/LoginActions";
 import * as userActions from "../../redux store/actions/UserActions";
+import * as playlistActions from "../../redux store/actions/PlaylistActions";
 import Backdrop from "../../UI/Backdrop/Backdrop";
 
 import BrowseSongsList from "../BrowseSongsList/BrowseSongsList";
@@ -17,9 +18,20 @@ const PlaylistPage = (props) => {
     () => dispatch(userActions.getUserData()),
     []
   );
+  const getSong = useCallback(
+    (songId) => dispatch(playlistActions.getTrack(songId)),
+    []
+  );
+  const playSong = useCallback(
+    (songUri) => dispatch(playlistActions.playSong(songUri)),
+    []
+  );
   // get state variables
   const isAuthenticated = useSelector((state) => {
     return state.login.token != null;
+  });
+  const lastFetchedSong = useSelector((state) => {
+    return state.playlist.lastFetchedSong;
   });
 
   useEffect(() => {
@@ -46,12 +58,25 @@ const PlaylistPage = (props) => {
     setToggleBackdrop(false);
   };
 
+  const handleSongSelection = (songId) => {
+    setToggleBackdrop(false);
+    // add song to queue if only one user in room
+    // go to voting if more users
+
+    getSong(songId);
+  };
+
+  const playCurrentSong = () => {
+    if (lastFetchedSong) {
+      playSong(lastFetchedSong.uri);
+    }
+  };
+
   return (
     <React.Fragment>
       {toggleBackdrop ? (
         <Backdrop toggleBackdrop={handleCloseBackdrop}>
-          <div>Browse your favourite songs</div>
-          <BrowseSongsList />
+          <BrowseSongsList onSongSelect={handleSongSelection} />
         </Backdrop>
       ) : null}
       <div className={cssClasses.NavBar}>
@@ -64,6 +89,8 @@ const PlaylistPage = (props) => {
           <p>Currently playing</p>
           <Container className={cssClasses.CurrentSongContainer}>
             {/* current song */}
+
+            {lastFetchedSong ? <div onClick={playCurrentSong}>PLAY</div> : null}
             <p>Song Name</p>
             <p>Artist Name</p>
           </Container>

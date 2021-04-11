@@ -23,7 +23,10 @@ export const GET_ONE_ROOM = LOCALHOST_URL + ROOM_ENDPOINT + "/{id}";
 export const CREATE_ROOM = LOCALHOST_URL + ROOM_ENDPOINT;
 export const DELETE_ROOM = LOCALHOST_URL + ROOM_ENDPOINT + "/{id}";
 
-
 // Playlist
 export const PLAYLIST_ENDPOINT = "/playlist";
-export const SEARCH_FOR_SONG = LOCALHOST_URL + PLAYLIST_ENDPOINT + '/search/{:song}';
+export const SEARCH_FOR_SONG =
+  LOCALHOST_URL + PLAYLIST_ENDPOINT + "/search/{:song}";
+export const GET_SONG_BY_ID =
+  LOCALHOST_URL + PLAYLIST_ENDPOINT + "/songs/{:id}";
+export const PLAY_SONG = LOCALHOST_URL + PLAYLIST_ENDPOINT + "/songs/play";

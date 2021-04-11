@@ -3,10 +3,10 @@ import { Container } from "@material-ui/core";
 import * as cssClasses from "./BrowseSongsList.module.css";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import SongCard from "../SongCard/SongCard";
 import * as playlistActions from "../../redux store/actions/PlaylistActions";
 
-const BrowseSongsList = () => {
+const BrowseSongsList = ({ onSongSelect }) => {
   const [searchValue, setSearchValue] = useState("");
   let searchTimeout = 0;
 
@@ -38,22 +38,25 @@ const BrowseSongsList = () => {
   return (
     <div className={cssClasses.BrowseSongsList}>
       <Container className={cssClasses.SearchContainer}>
+        <p>Browse your favourite songs</p>
+
         <SearchBar
           value={searchValue}
           onChange={(newValue) => handleInputChange(newValue)}
         />
-        {fetchedSongs ? (
-          <ul>
-            {fetchedSongs.map((song) => {
-              // Song Card
-              return (
-                <li key={song.id} style={{ marginBottom: "1rem" }}>
-                  {song.name + " by " + song.artists[0].name}
-                </li>
-              );
-            })}
-          </ul>
-        ) : null}
+        <div className={cssClasses.SongsList}>
+          {fetchedSongs
+            ? fetchedSongs.map((song) => {
+                return (
+                  <SongCard
+                    key={song.id}
+                    song={song}
+                    onClick={() => onSongSelect(song.id)}
+                  />
+                );
+              })
+            : null}
+        </div>
       </Container>
     </div>
   );
