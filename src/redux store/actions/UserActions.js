@@ -156,3 +156,17 @@ export const createNewRoom = ({ roomName, userId }) => {
       });
   };
 };
+
+// enter room
+
+export const getRoom = (roomId) => {
+  return (dispatch) => {
+    var url = Constants.GET_ONE_ROOM.replace("{id}", roomId);
+    axios.get(url).then((response) => {
+      dispatch({
+        type: actionTypes.GET_ROOM,
+        room: response.data,
+      });
+    });
+  };
+};

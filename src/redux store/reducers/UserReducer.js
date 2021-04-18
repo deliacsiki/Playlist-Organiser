@@ -8,6 +8,7 @@ const initialState = {
   userRooms: null,
   loading: false,
   error: null,
+  currentRoom: null,
 };
 
 const getUserDataStart = (state, action) => {
@@ -60,6 +61,14 @@ const deleteRoomSuccess = (state, { deletedRoomId }) => {
   });
 };
 
+const enterRoom = (state, { room }) => {
+  return updateObject(state, {
+    error: null,
+    loading: false,
+    currentRoom: room,
+  });
+};
+
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_USER_DATA_START:
@@ -79,6 +88,9 @@ const UserReducer = (state = initialState, action) => {
 
     case actionTypes.CREATE_ROOM_SUCCESS:
       return createUserRoomSuccess(state, action);
+
+    case actionTypes.GET_ROOM:
+      return enterRoom(state, action);
 
     default:
       return state;

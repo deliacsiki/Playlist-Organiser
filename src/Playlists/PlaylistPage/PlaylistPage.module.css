@@ -1,16 +1,23 @@
 .NavBar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
   background-color: #ccc;
+  height: 20px;
 }
 
 .PlaylistPage {
-  background-color: #e5e5e5;
-  height: 100%;
+  background-color: #f2f2f2;
+  height: calc(100% - 20px);
+  padding: 2rem;
+}
+
+.PlaylistPage button {
+  margin-top: 1rem;
 }
 
 .CurrentSongSection {
-  padding: 2rem;
   width: 50%;
 }
 
@@ -20,7 +27,34 @@
   padding: 1rem;
 }
 
-.SongQueueSection {
+.CurrentSong {
+  position: relative;
+  display: flex;
+}
+
+.CurrentSong img {
+  width: 150px;
+  border-radius: 10px;
+}
+
+.CurrentSong p {
+  margin: 0 1rem;
+  display: flex;
+}
+
+.CurrentSongTitle {
+  font-size: 20px;
+  color: #f2f2f2;
+  font-weight: bold;
+}
+
+.CurrentSongArtist {
+  font-size: 18px;
+  font-weight: 500;
+  color: #e5e5e5;
+}
+
+.CurrentSongCard .SongQueueSection {
   padding: 2rem;
   width: 50%;
 }

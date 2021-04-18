@@ -36,7 +36,7 @@ const RoomList = ({ rooms }) => {
     // handle open room
     event.preventDefault();
     console.log(`Clicked room with id ${roomId}`);
-    window.location.href = `${URLConstants.LOCALHOST_URL_CLIENT}/room/${roomId}`;
+    window.location.href = `${URLConstants.LOCALHOST_URL_CLIENT}/room?id=${roomId}`;
   };
 
   const handleDeleteRoom = (event, roomId) => {

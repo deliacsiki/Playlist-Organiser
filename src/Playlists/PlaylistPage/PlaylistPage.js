@@ -26,6 +26,10 @@ const PlaylistPage = (props) => {
     (songUri) => dispatch(playlistActions.playSong(songUri)),
     []
   );
+  const getCurrentRoom = useCallback(
+    (roomId) => dispatch(userActions.getRoom(roomId)),
+    []
+  );
   // get state variables
   const isAuthenticated = useSelector((state) => {
     return state.login.token != null;
@@ -33,11 +37,13 @@ const PlaylistPage = (props) => {
   const lastFetchedSong = useSelector((state) => {
     return state.playlist.lastFetchedSong;
   });
+  const currentRoom = useSelector((state) => {
+    return state.user.currentRoom;
+  });
 
   useEffect(() => {
-    // get URL params
     const params = new URLSearchParams(window.location.search);
-    console.log(params);
+    getCurrentRoom(params.get("id"));
   }, []);
 
   useEffect(() => {
@@ -72,6 +78,34 @@ const PlaylistPage = (props) => {
     }
   };
 
+  var currentSong = <p>No song playing</p>;
+  if (lastFetchedSong) {
+    currentSong = (
+      <div className={cssClasses.CurrentSong}>
+        <div>
+          <img src={lastFetchedSong.album.images[1].url} />
+        </div>
+        <div>
+          <p className={cssClasses.CurrentSongTitle}>{lastFetchedSong.name}</p>
+          <p className={cssClasses.CurrentSongArtist}>
+            {lastFetchedSong.artists.map((artist) => artist.name).join(", ")}
+          </p>
+        </div>
+        <div
+          style={{
+            color: "white",
+            position: "absolute",
+            bottom: 0,
+            right: 0,
+            cursor: "pointer",
+          }}
+          onClick={playCurrentSong}
+        >
+          PLAY
+        </div>
+      </div>
+    );
+  }
   return (
     <React.Fragment>
       {toggleBackdrop ? (
@@ -80,21 +114,23 @@ const PlaylistPage = (props) => {
         </Backdrop>
       ) : null}
       <div className={cssClasses.NavBar}>
-        <p>Playlist page</p>
-        <Button onClick={handleAddSong}>Add a song</Button>
+        {currentRoom ? (
+          <div>
+            ROOM CODE: <b>{currentRoom.code}</b>
+          </div>
+        ) : null}
         <Button onClick={handleBackButton}>Back</Button>
       </div>
       <div className={cssClasses.PlaylistPage}>
         <div className={cssClasses.CurrentSongSection}>
           <p>Currently playing</p>
           <Container className={cssClasses.CurrentSongContainer}>
-            {/* current song */}
-
-            {lastFetchedSong ? <div onClick={playCurrentSong}>PLAY</div> : null}
-            <p>Song Name</p>
-            <p>Artist Name</p>
+            {currentSong}
           </Container>
         </div>
+        <Button onClick={handleAddSong} color="primary">
+          Add a song
+        </Button>
         <div className={cssClasses.SongQueueSection}>
           <p>Songs in queue</p>
           <Container className={cssClasses.SongQueue}>

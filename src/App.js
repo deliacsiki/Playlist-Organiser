@@ -10,7 +10,7 @@ const App = () => {
   let routes = (
     <Switch>
       <Route path="/home" component={RoomPage} />
-      <Route path="/room/:id" component={PlaylistPage} />
+      <Route path="/room" component={PlaylistPage} />
       <Route path="/" component={SignInPage} />
       <Redirect to="/" />
     </Switch>
