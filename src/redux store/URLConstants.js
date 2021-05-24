@@ -1,8 +1,9 @@
 export const CLIENT_PORT = "3000";
 export const SERVER_PORT = "8080";
 
-export const LOCALHOST_URL_CLIENT = `http://localhost:${CLIENT_PORT}`;
-export const LOCALHOST_URL = `http://localhost:${SERVER_PORT}`;
+export const HOST_IP = "192.168.0.132";
+export const LOCALHOST_URL_CLIENT = `http://${HOST_IP}:${CLIENT_PORT}`;
+export const LOCALHOST_URL = `http://${HOST_IP}:${SERVER_PORT}`;
 
 export const LOCALHOST_IP = "127.0.0.1";
 export const LOCALHOST_HOSTNAME = "localhost";
