@@ -4,6 +4,12 @@
   color: #333333;
 }
 
+.App hr {
+  margin: 2rem 0;
+  border: 0;
+  border-bottom: 2px solid #ccc;
+}
+
 .Header {
   height: 5%;
   text-align: left;
@@ -14,6 +20,10 @@
   font-size: 20px;
   font-weight: bold;
   box-shadow: 0px 6px 32px 5px rgba(0, 0, 0, 0.2);
+}
+
+.SharedRoomsHeader {
+  margin: 1rem;
 }
 
 .Coming-Soon {

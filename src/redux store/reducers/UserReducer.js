@@ -9,6 +9,7 @@ const initialState = {
   loading: false,
   error: null,
   currentRoom: null,
+  sharedRooms: null,
 };
 
 const getUserDataStart = (state, action) => {

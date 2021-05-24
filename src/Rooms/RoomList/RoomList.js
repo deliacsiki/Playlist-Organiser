@@ -9,7 +9,7 @@ import * as URLConstants from "../../redux store/URLConstants";
 
 import cssClasses from "./RoomList.module.css";
 
-const RoomList = ({ rooms }) => {
+const RoomList = ({ rooms, firstTileLabel = null }) => {
   const [toggleBackdrop, setToggleBackdrop] = useState(false);
 
   const dispatch = useDispatch();
@@ -60,7 +60,8 @@ const RoomList = ({ rooms }) => {
         </Backdrop>
       ) : null}
       <RoomCard
-        type="ADD_ROOM"
+        type={"ADD_ROOM"}
+        name={firstTileLabel}
         clickHandler={(event) => handleAddRoom(event)}
       />
       {rooms

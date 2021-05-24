@@ -33,6 +33,7 @@ const RoomPage = (props) => {
   // const checkState = useSelector((state) => state.login.stateReceived);
   const displayName = useSelector((state) => state.user.displayName);
   const userRooms = useSelector((state) => state.user.userRooms);
+  const sharedRooms = useSelector((state) => state.user.sharedRooms);
 
   useEffect(() => {
     // get URL params if any
@@ -64,6 +65,10 @@ const RoomPage = (props) => {
     console.log("New room soon to be added");
   };
 
+  const joinRoomHandler = () => {
+    console.log("Join new room by code soon");
+  };
+
   const logoutHandler = () => {
     logOut();
     window.location.href = `${URLConstants.LOCALHOST_URL_CLIENT}`;
@@ -78,6 +83,13 @@ const RoomPage = (props) => {
         </div>
 
         <RoomList rooms={userRooms} submitHandler={addNewRoomHandler} />
+        <hr />
+        <div className={cssClasses.SharedRoomsHeader}>Rooms you are in</div>
+        <RoomList
+          rooms={sharedRooms}
+          firstTileLabel="Join a room"
+          submitHandler={joinRoomHandler}
+        />
       </div>
     </React.Fragment>
   );
