@@ -8,12 +8,17 @@ import * as userActions from "../../redux store/actions/UserActions";
 import * as URLConstants from "../../redux store/URLConstants";
 
 import cssClasses from "./RoomPage.module.css";
+import { Button } from "@material-ui/core";
 
 const RoomPage = (props) => {
   const dispatch = useDispatch();
   // get login dispatchers
   const authenticate = useCallback(
     (token) => dispatch(loginActions.authenticate(token)),
+    []
+  );
+  const logOut = useCallback(
+    () => dispatch(loginActions.authenticationLogout()),
     []
   );
   // get use dispatchers
@@ -34,7 +39,11 @@ const RoomPage = (props) => {
     if (window.location.search.length !== 0) {
       const params = new URLSearchParams(window.location.search);
       let token = params.get("code");
-      if (token === null && localStorage.getItem("token") === null) {
+      if (
+        token === null &&
+        localStorage.getItem("token") === null &&
+        localStorage.getItem("userId") === null
+      ) {
         // redirect to login
         window.location.href = `${URLConstants.LOCALHOST_URL_CLIENT}`;
       }
@@ -55,11 +64,17 @@ const RoomPage = (props) => {
     console.log("New room soon to be added");
   };
 
+  const logoutHandler = () => {
+    logOut();
+    window.location.href = `${URLConstants.LOCALHOST_URL_CLIENT}`;
+  };
+
   return (
     <React.Fragment>
       <div className={cssClasses.App}>
         <div className={cssClasses.Header}>
           {displayName ? `Welcome, ${displayName}` : null}
+          <Button onClick={logoutHandler}>LOG OUT</Button>
         </div>
 
         <RoomList rooms={userRooms} submitHandler={addNewRoomHandler} />
