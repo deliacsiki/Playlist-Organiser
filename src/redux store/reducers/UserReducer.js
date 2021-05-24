@@ -70,6 +70,14 @@ const enterRoom = (state, { room }) => {
   });
 };
 
+const getUserSharedRoomsSuccess = (state, { rooms }) => {
+  return updateObject(state, {
+    sharedRooms: rooms,
+    loading: false,
+    error: null,
+  });
+};
+
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_USER_DATA_START:
@@ -80,6 +88,9 @@ const UserReducer = (state = initialState, action) => {
 
     case actionTypes.GET_USER_DATA_SUCCESS:
       return getUserDataSuccess(state, action);
+
+    case actionTypes.GET_SHARED_ROOMS_SUCCESS:
+      return getUserSharedRoomsSuccess(state, action);
 
     case actionTypes.DELETE_ROOM_SUCCESS:
       return deleteRoomSuccess(state, action);

@@ -37,6 +37,7 @@ export const getUserData = () => {
         if (response.data) {
           dispatch(getUserDataSuccess(response.data));
           dispatch(getUserRooms());
+          dispatch(getUserSharedRooms());
         }
       })
       .catch((error) => {
@@ -79,6 +80,42 @@ export const getUserRooms = () => {
       .catch((error) => {
         console.log(error.response);
         dispatch(getUserRoomsError(error.response));
+      });
+  };
+};
+
+// get rooms shared with user
+export const getUserSharedRoomsSuccess = (rooms) => {
+  return {
+    type: actionTypes.GET_SHARED_ROOMS_SUCCESS,
+    rooms: rooms,
+  };
+};
+
+export const getUserSharedRoomsError = (error) => {
+  return {
+    type: actionTypes.GET_SHARED_ROOMS_ERROR,
+    error: error,
+  };
+};
+
+export const getUserSharedRooms = () => {
+  return (dispatch) => {
+    let url = Constants.GET_SHARED_ROOMS.replace(
+      "{id}",
+      localStorage.getItem("userId")
+    );
+    axios
+      .get(url)
+      .then((response) => {
+        console.log("[UserAction] Successfully received user's shared rooms");
+        if (response.data) {
+          dispatch(getUserSharedRoomsSuccess(response.data));
+        }
+      })
+      .catch((error) => {
+        console.log(error.response);
+        dispatch(getUserSharedRoomsError(error.response));
       });
   };
 };
