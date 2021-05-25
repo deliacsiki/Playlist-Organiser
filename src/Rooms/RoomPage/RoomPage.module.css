@@ -15,15 +15,20 @@
   text-align: left;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 1rem;
   font-size: 20px;
   font-weight: bold;
   box-shadow: 0px 6px 32px 5px rgba(0, 0, 0, 0.2);
 }
 
+.Header p {
+  margin-right: 1rem;
+}
+
 .SharedRoomsHeader {
   margin: 1rem;
+  font-weight: bold;
 }
 
 .Coming-Soon {
