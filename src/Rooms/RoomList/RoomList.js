@@ -9,16 +9,12 @@ import * as URLConstants from "../../redux store/URLConstants";
 
 import cssClasses from "./RoomList.module.css";
 
-const RoomList = ({ rooms, firstTileLabel = null }) => {
+const RoomList = ({ rooms, firstTileLabel = null, onSubmit }) => {
   const [toggleBackdrop, setToggleBackdrop] = useState(false);
 
   const dispatch = useDispatch();
   const deleteRoom = useCallback(
     (roomId) => dispatch(actions.deleteUserRoom(roomId)),
-    []
-  );
-  const createRoom = useCallback(
-    (room) => dispatch(actions.createNewRoom(room)),
     []
   );
 
@@ -49,7 +45,7 @@ const RoomList = ({ rooms, firstTileLabel = null }) => {
   const handleFormSubmit = ({ roomName }) => {
     setToggleBackdrop(false);
     // dispatch add room action
-    createRoom({ roomName: roomName });
+    onSubmit(roomName);
   };
 
   return (

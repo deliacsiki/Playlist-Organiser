@@ -1,4 +1,4 @@
-import { Button, Container } from "@material-ui/core";
+import { Button, Container, Grid } from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import * as loginActions from "../../redux store/actions/LoginActions";
@@ -133,24 +133,13 @@ const PlaylistPage = (props) => {
         </Button>
         <div className={cssClasses.SongQueueSection}>
           <p>Songs in queue</p>
-          <Container className={cssClasses.SongQueue}>
+          <Grid container fullwidth className={cssClasses.SongQueue}>
             {/* songs in queue */}
-          </Container>
+          </Grid>
         </div>
       </div>
     </React.Fragment>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    stateReceived: state.login.stateReceived,
-    isAuthenticated: state.login.token != null,
-  };
-};
-
-const mapDispatchToProps = (state) => {
-  return {};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PlaylistPage);
+export default PlaylistPage;

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 
 import RoomList from "../RoomList/RoomList";
@@ -26,6 +26,11 @@ const RoomPage = (props) => {
     () => dispatch(userActions.getUserData()),
     []
   );
+  const createRoom = useCallback(
+    (room) => dispatch(userActions.createNewRoom(room)),
+    []
+  );
+
   // get state variables
   const isAuthenticated = useSelector((state) => {
     return state.login.token != null;
@@ -61,8 +66,8 @@ const RoomPage = (props) => {
     }
   }, [isAuthenticated]);
 
-  const addNewRoomHandler = () => {
-    console.log("New room soon to be added");
+  const addNewRoomHandler = (roomName) => {
+    createRoom({ roomName: roomName });
   };
 
   const joinRoomHandler = () => {
@@ -78,11 +83,11 @@ const RoomPage = (props) => {
     <React.Fragment>
       <div className={cssClasses.App}>
         <div className={cssClasses.Header}>
-          {displayName ? `Welcome, ${displayName}` : null}
+          {displayName ? <p>{displayName}</p> : null}
           <Button onClick={logoutHandler}>LOG OUT</Button>
         </div>
 
-        <RoomList rooms={userRooms} submitHandler={addNewRoomHandler} />
+        <RoomList rooms={userRooms} onSubmit={addNewRoomHandler} />
         <hr />
         <div className={cssClasses.SharedRoomsHeader}>Rooms you are in</div>
         <RoomList
