@@ -8,12 +8,14 @@ import * as userActions from "../../redux store/actions/UserActions";
 import * as URLConstants from "../../redux store/URLConstants";
 
 import cssClasses from "./RoomPage.module.css";
-import { Button } from "@material-ui/core";
+import { Button, Dialog, DialogActions } from "@material-ui/core";
 import RoomForm from "../RoomForm/RoomForm";
 import JoinRoomForm from "../RoomForm/JoinRoomForm/JoinRoomForm";
 
 const RoomPage = (props) => {
   const modalCloseRef = useRef(null);
+  const [roomToDelete, setRoomToDelete] = useState(null);
+  const [showDialog, setShowDialog] = useState(false);
 
   const dispatch = useDispatch();
   // get login dispatchers
@@ -92,9 +94,25 @@ const RoomPage = (props) => {
     modalCloseRef.current?.click();
   };
 
+  const handleDialogConfirm = () => {
+    setShowDialog(false);
+    if (roomToDelete.owner) {
+      deleteRoom(roomToDelete.roomId);
+    } else unshareRoom(roomToDelete.roomId);
+    setRoomToDelete(null);
+  };
+
   const deleteRoomForUser = (id, owner) => {
-    if (owner) deleteRoom(id);
-    else unshareRoom(id);
+    if (owner) {
+      var roomClicked = userRooms.find((room) => room._id === id);
+      if (roomClicked.people.length != 0) {
+        setRoomToDelete({ roomId: id, owner: owner, withPeople: true });
+        setShowDialog(true);
+        return;
+      }
+    }
+    setRoomToDelete({ roomId: id, owner: owner });
+    setShowDialog(true);
   };
 
   const logoutHandler = () => {
@@ -104,6 +122,28 @@ const RoomPage = (props) => {
 
   return (
     <React.Fragment>
+      {showDialog ? (
+        <Dialog open={showDialog}>
+          <div className={cssClasses.Dialog}>
+            {roomToDelete.withPeople ? (
+              <h4>This room is shared with other people</h4>
+            ) : (
+              <h4>
+                Are you sure you want to{" "}
+                {roomToDelete.owner ? " delete " : " unsubscribe to "} this
+                room?
+              </h4>
+            )}
+            {roomToDelete.withPeople ? (
+              <p>Are you sure you want to delete it?</p>
+            ) : null}
+            <DialogActions>
+              <Button onClick={handleDialogConfirm}>YES</Button>
+              <Button onClick={() => setShowDialog(false)}>No</Button>
+            </DialogActions>
+          </div>
+        </Dialog>
+      ) : null}
       <div className={cssClasses.App}>
         <div className={cssClasses.Header}>
           {displayName ? <p>{displayName}</p> : null}
