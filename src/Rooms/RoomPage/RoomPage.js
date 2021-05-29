@@ -10,6 +10,7 @@ import * as URLConstants from "../../redux store/URLConstants";
 import cssClasses from "./RoomPage.module.css";
 import { Button } from "@material-ui/core";
 import RoomForm from "../RoomForm/RoomForm";
+import JoinRoomForm from "../RoomForm/JoinRoomForm/JoinRoomForm";
 
 const RoomPage = (props) => {
   const modalCloseRef = useRef(null);
@@ -74,8 +75,8 @@ const RoomPage = (props) => {
     modalCloseRef.current?.click();
   };
 
-  const joinRoomHandler = () => {
-    console.log("Join new room by code soon");
+  const joinRoomHandler = (room) => {
+    console.log("Join new room", room);
     modalCloseRef.current?.click();
   };
 
@@ -103,7 +104,7 @@ const RoomPage = (props) => {
           rooms={sharedRooms}
           firstTileLabel="Join a room"
           modalCloseRef={modalCloseRef}
-          formInModal={<RoomForm submitHandler={joinRoomHandler} />}
+          formInModal={<JoinRoomForm submitHandler={joinRoomHandler} />}
         />
       </div>
     </React.Fragment>
