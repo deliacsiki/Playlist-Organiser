@@ -210,3 +210,28 @@ export const getRoom = (roomId) => {
     });
   };
 };
+
+// join room
+export const joinRoom = (room, userId) => {
+  return (dispatch) => {
+    let body = {
+      room: {
+        people: [
+          ...room.people,
+          userId ? userId : localStorage.getItem("userId"),
+        ],
+      },
+    };
+    var url = Constants.JOIN_ROOM.replace("{id}", room._id);
+    axios.put(url, body).then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        dispatch({
+          type: actionTypes.JOIN_ROOM,
+          room: response.data,
+        });
+        console.log(response.data);
+        window.location.href = `${Constants.LOCALHOST_URL_CLIENT}/room?id=${room._id}`;
+      }
+    });
+  };
+};

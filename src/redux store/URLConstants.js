@@ -25,6 +25,7 @@ export const CREATE_ROOM = LOCALHOST_URL + ROOM_ENDPOINT;
 export const DELETE_ROOM = LOCALHOST_URL + ROOM_ENDPOINT + "/{id}";
 export const GET_SHARED_ROOMS = GET_ROOMS + "/shared/{id}";
 export const GET_ROOM_BY_CODE = GET_ROOMS + "/room-code/{id}";
+export const JOIN_ROOM = GET_ONE_ROOM;
 
 // Playlist
 export const PLAYLIST_ENDPOINT = "/playlist";

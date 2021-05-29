@@ -34,6 +34,10 @@ const RoomPage = (props) => {
     (room) => dispatch(userActions.createNewRoom(room)),
     []
   );
+  const joinRoom = useCallback(
+    (room) => dispatch(userActions.joinRoom(room)),
+    []
+  );
 
   // get state variables
   const isAuthenticated = useSelector((state) => {
@@ -76,7 +80,7 @@ const RoomPage = (props) => {
   };
 
   const joinRoomHandler = (room) => {
-    console.log("Join new room", room);
+    joinRoom(room);
     modalCloseRef.current?.click();
   };
 

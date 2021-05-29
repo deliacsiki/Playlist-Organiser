@@ -70,6 +70,14 @@ const enterRoom = (state, { room }) => {
   });
 };
 
+const joinRoom = (state, { room }) => {
+  return updateObject(state, {
+    error: null,
+    loading: false,
+    sharedRooms: [...state.sharedRooms, room],
+  });
+};
+
 const getUserSharedRoomsSuccess = (state, { rooms }) => {
   return updateObject(state, {
     sharedRooms: rooms,
@@ -103,6 +111,9 @@ const UserReducer = (state = initialState, action) => {
 
     case actionTypes.GET_ROOM:
       return enterRoom(state, action);
+
+    case actionTypes.JOIN_ROOM:
+      return joinRoom(state, action);
 
     default:
       return state;

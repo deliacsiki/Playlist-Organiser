@@ -28,6 +28,7 @@ export const CREATE_ROOM_SUCCESS = "CREATE_ROOM_SUCCESS";
 export const CREATE_ROOM_ERROR = "CREATE_ROOM_ERROR";
 
 export const GET_ROOM = "GET_ROOM";
+export const JOIN_ROOM = "JOIN_ROOM";
 
 // Playlist Actions
 export const SEARCH_SONG_START = "SEARCH_SONG_START";
