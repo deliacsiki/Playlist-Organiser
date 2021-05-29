@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 
 import RoomList from "../RoomList/RoomList";
@@ -9,8 +9,11 @@ import * as URLConstants from "../../redux store/URLConstants";
 
 import cssClasses from "./RoomPage.module.css";
 import { Button } from "@material-ui/core";
+import RoomForm from "../RoomForm/RoomForm";
 
 const RoomPage = (props) => {
+  const modalCloseRef = useRef(null);
+
   const dispatch = useDispatch();
   // get login dispatchers
   const authenticate = useCallback(
@@ -67,11 +70,13 @@ const RoomPage = (props) => {
   }, [isAuthenticated]);
 
   const addNewRoomHandler = (roomName) => {
-    createRoom({ roomName: roomName });
+    createRoom(roomName);
+    modalCloseRef.current?.click();
   };
 
   const joinRoomHandler = () => {
     console.log("Join new room by code soon");
+    modalCloseRef.current?.click();
   };
 
   const logoutHandler = () => {
@@ -87,13 +92,18 @@ const RoomPage = (props) => {
           <Button onClick={logoutHandler}>LOG OUT</Button>
         </div>
 
-        <RoomList rooms={userRooms} onSubmit={addNewRoomHandler} />
+        <RoomList
+          rooms={userRooms}
+          modalCloseRef={modalCloseRef}
+          formInModal={<RoomForm submitHandler={addNewRoomHandler} />}
+        />
         <hr />
         <div className={cssClasses.SharedRoomsHeader}>Rooms you are in</div>
         <RoomList
           rooms={sharedRooms}
           firstTileLabel="Join a room"
-          submitHandler={joinRoomHandler}
+          modalCloseRef={modalCloseRef}
+          formInModal={<RoomForm submitHandler={joinRoomHandler} />}
         />
       </div>
     </React.Fragment>

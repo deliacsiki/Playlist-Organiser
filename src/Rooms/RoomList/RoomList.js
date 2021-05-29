@@ -8,9 +8,17 @@ import * as actions from "../../redux store/actions/UserActions";
 import * as URLConstants from "../../redux store/URLConstants";
 
 import cssClasses from "./RoomList.module.css";
+import FormModal from "../../UI/Modals/FormModal";
 
-const RoomList = ({ rooms, firstTileLabel = null, onSubmit }) => {
-  const [toggleBackdrop, setToggleBackdrop] = useState(false);
+const RoomList = ({
+  rooms,
+  firstTileLabel = null,
+  onSubmit,
+  formInModal = null,
+  modalCloseRef,
+}) => {
+  // const [toggleBackdrop, setToggleBackdrop] = useState(false);
+  const [toggleModal, setToggleModal] = useState(false);
 
   const dispatch = useDispatch();
   const deleteRoom = useCallback(
@@ -18,14 +26,11 @@ const RoomList = ({ rooms, firstTileLabel = null, onSubmit }) => {
     []
   );
 
-  const handleCloseBackdrop = () => {
-    setToggleBackdrop(false);
-  };
-
   const handleAddRoom = (event) => {
     // handle add room button
     event.preventDefault();
-    setToggleBackdrop(true);
+    // setToggleBackdrop(true);
+    setToggleModal(true);
   };
 
   const handleOpenRoom = (event, roomId) => {
@@ -43,17 +48,20 @@ const RoomList = ({ rooms, firstTileLabel = null, onSubmit }) => {
   };
 
   const handleFormSubmit = ({ roomName }) => {
-    setToggleBackdrop(false);
+    // setToggleBackdrop(false);
     // dispatch add room action
     onSubmit(roomName);
   };
 
   return (
     <div className={cssClasses.RoomList}>
-      {toggleBackdrop ? (
-        <Backdrop toggleBackdrop={handleCloseBackdrop}>
-          <RoomForm submitHandler={(value) => handleFormSubmit(value)} />
-        </Backdrop>
+      {toggleModal ? (
+        <FormModal
+          modalCloseRef={modalCloseRef}
+          showModal={toggleModal}
+          form={formInModal}
+          closeModal={() => setToggleModal(false)}
+        />
       ) : null}
       <RoomCard
         type={"ADD_ROOM"}

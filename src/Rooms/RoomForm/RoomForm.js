@@ -46,11 +46,7 @@ const RoomForm = ({ submitHandler }) => {
 
   const handleSubmit = () => {
     validateData();
-
-    const formData = {
-      roomName: fields.roomName.value,
-    };
-    submitHandler(formData);
+    submitHandler(fields.roomName.value);
   };
 
   const form = (

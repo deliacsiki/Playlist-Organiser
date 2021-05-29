@@ -167,7 +167,7 @@ export const createNewRoomError = () => {
   };
 };
 
-export const createNewRoom = ({ roomName, userId }) => {
+export const createNewRoom = (roomName, userId) => {
   return (dispatch) => {
     let url = Constants.CREATE_ROOM;
     let body = {
@@ -182,14 +182,17 @@ export const createNewRoom = ({ roomName, userId }) => {
             `[RoomAction] Successfully created room with name ${roomName}`
           );
           dispatch(createNewRoomSuccess(response.data));
+          return true;
         } else {
           console.log("No response");
           dispatch(createNewRoomError());
+          return false;
         }
       })
       .catch((error) => {
         console.log(error);
         dispatch(createNewRoomError());
+        return false;
       });
   };
 };
