@@ -78,6 +78,15 @@ const joinRoom = (state, { room }) => {
   });
 };
 
+const unsubscribeRoom = (state, { roomId }) => {
+  var hardCopy = [...state.sharedRooms.filter((room) => room._id != roomId)];
+  return updateObject(state, {
+    sharedRooms: hardCopy,
+    loading: false,
+    error: null,
+  });
+};
+
 const getUserSharedRoomsSuccess = (state, { rooms }) => {
   return updateObject(state, {
     sharedRooms: rooms,
@@ -114,6 +123,9 @@ const UserReducer = (state = initialState, action) => {
 
     case actionTypes.JOIN_ROOM:
       return joinRoom(state, action);
+
+    case actionTypes.UNSUBSCRIBE_ROOM:
+      return unsubscribeRoom(state, action);
 
     default:
       return state;

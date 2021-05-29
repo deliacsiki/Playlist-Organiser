@@ -13,18 +13,12 @@ import FormModal from "../../UI/Modals/FormModal";
 const RoomList = ({
   rooms,
   firstTileLabel = null,
-  onSubmit,
   formInModal = null,
   modalCloseRef,
+  onDelete
 }) => {
   // const [toggleBackdrop, setToggleBackdrop] = useState(false);
   const [toggleModal, setToggleModal] = useState(false);
-
-  const dispatch = useDispatch();
-  const deleteRoom = useCallback(
-    (roomId) => dispatch(actions.deleteUserRoom(roomId)),
-    []
-  );
 
   const handleAddRoom = (event) => {
     // handle add room button
@@ -43,14 +37,7 @@ const RoomList = ({
   const handleDeleteRoom = (event, roomId) => {
     // handle delete room
     event.preventDefault();
-    console.log(`Delete room with id ${roomId}`);
-    deleteRoom(roomId);
-  };
-
-  const handleFormSubmit = ({ roomName }) => {
-    // setToggleBackdrop(false);
-    // dispatch add room action
-    onSubmit(roomName);
+    onDelete(roomId)
   };
 
   return (

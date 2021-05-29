@@ -152,6 +152,28 @@ export const deleteUserRoom = (roomId) => {
   };
 };
 
+// unshare a room for curernt user
+export const unsubscribeUserRoom = (roomId, userId) => {
+  return (dispatch) => {
+    let url = Constants.UNSUBSCRIBE_ROOM;
+    var body = {
+      roomId: roomId,
+      userId: userId ? userId : localStorage.getItem("userId"),
+    };
+    axios.post(url, body).then((res) => {
+      if (res.data) {
+        console.log(
+          `[RoomAction] Successfully unsubscribed from room with id ${roomId}`
+        );
+        dispatch({
+          type: actionTypes.UNSUBSCRIBE_ROOM,
+          roomId: roomId,
+        });
+      }
+    });
+  };
+};
+
 // create a new room for current user
 
 export const createNewRoomSuccess = (room) => {
@@ -229,7 +251,6 @@ export const joinRoom = (room, userId) => {
           type: actionTypes.JOIN_ROOM,
           room: response.data,
         });
-        console.log(response.data);
         window.location.href = `${Constants.LOCALHOST_URL_CLIENT}/room?id=${room._id}`;
       }
     });

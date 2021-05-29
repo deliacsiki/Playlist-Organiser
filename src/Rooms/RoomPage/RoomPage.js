@@ -38,6 +38,14 @@ const RoomPage = (props) => {
     (room) => dispatch(userActions.joinRoom(room)),
     []
   );
+  const deleteRoom = useCallback(
+    (roomId) => dispatch(userActions.deleteUserRoom(roomId)),
+    []
+  );
+  const unshareRoom = useCallback(
+    (roomId) => dispatch(userActions.unsubscribeUserRoom(roomId)),
+    []
+  );
 
   // get state variables
   const isAuthenticated = useSelector((state) => {
@@ -84,6 +92,11 @@ const RoomPage = (props) => {
     modalCloseRef.current?.click();
   };
 
+  const deleteRoomForUser = (id, owner) => {
+    if (owner) deleteRoom(id);
+    else unshareRoom(id);
+  };
+
   const logoutHandler = () => {
     logOut();
     window.location.href = `${URLConstants.LOCALHOST_URL_CLIENT}`;
@@ -101,6 +114,7 @@ const RoomPage = (props) => {
           rooms={userRooms}
           modalCloseRef={modalCloseRef}
           formInModal={<RoomForm submitHandler={addNewRoomHandler} />}
+          onDelete={(id) => deleteRoomForUser(id, true)}
         />
         <hr />
         <div className={cssClasses.SharedRoomsHeader}>Rooms you are in</div>
@@ -109,6 +123,7 @@ const RoomPage = (props) => {
           firstTileLabel="Join a room"
           modalCloseRef={modalCloseRef}
           formInModal={<JoinRoomForm submitHandler={joinRoomHandler} />}
+          onDelete={(id) => deleteRoomForUser(id, false)}
         />
       </div>
     </React.Fragment>
