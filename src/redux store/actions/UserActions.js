@@ -236,12 +236,15 @@ export const getRoom = (roomId) => {
 // join room
 export const joinRoom = (room, userId) => {
   return (dispatch) => {
+    const userID = userId ? userId : localStorage.getItem("userId");
+    if (room.people.find((user) => user === userID)) {
+      window.location.href = `${Constants.LOCALHOST_URL_CLIENT}/room?id=${room._id}`;
+      return;
+    }
+
     let body = {
       room: {
-        people: [
-          ...room.people,
-          userId ? userId : localStorage.getItem("userId"),
-        ],
+        people: [...room.people, userID],
       },
     };
     var url = Constants.JOIN_ROOM.replace("{id}", room._id);
