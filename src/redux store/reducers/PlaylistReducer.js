@@ -9,7 +9,6 @@ const initialState = {
   currentSong: null,
   error: null,
   lastFetchedSong: null,
-  toggleDeviceWindow: false,
   activeDevice: null,
   availableDevices: [],
 };
@@ -40,7 +39,7 @@ const getTrackSuccess = (state, { song }) => {
 const getAvailableDevices = (state, { devices }) => {
   return updateObject(state, {
     availableDevices: devices,
-    toggleDeviceWindow: true,
+    activeDevice: devices.length === 1 ? devices[0] : null,
   });
 };
 

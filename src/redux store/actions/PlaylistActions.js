@@ -89,12 +89,13 @@ export const playSongSuccess = () => {
   };
 };
 
-export const playSong = (songUri) => {
+export const playSong = (songUri, deviceId = null) => {
   return (dispatch) => {
     var token = localStorage.getItem("token");
     if (token) {
       var url = Constants.PLAY_SONG;
       var postData = {
+        deviceId: deviceId || null,
         uri: songUri,
       };
       axios

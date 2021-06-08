@@ -15,6 +15,10 @@
   word-break: break-all;
 }
 
+.RoomCard p {
+  margin: 1rem;
+}
+
 .PlusCard {
   background-color: #9b51e0;
   font-weight: bolder;
@@ -29,10 +33,15 @@
   font-weight: 500;
   background: linear-gradient(
     135deg,
+    rgba(37, 40, 61, 1) 19%,
+    rgba(7, 190, 184, 1) 100%
+  );
+  /* background: linear-gradient(
+    135deg,
     rgba(2, 0, 36, 1) 0%,
     rgba(9, 9, 121, 1) 35%,
     rgba(0, 212, 255, 1) 100%
-  );
+  ); */
 }
 
 .RoomCard:hover {

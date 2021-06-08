@@ -1,4 +1,11 @@
-import { Button, Container, Grid, Dialog } from "@material-ui/core";
+import {
+  Button,
+  Container,
+  Grid,
+  Dialog,
+  List,
+  ListItem,
+} from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import * as loginActions from "../../redux store/actions/LoginActions";
@@ -24,7 +31,8 @@ const PlaylistPage = (props) => {
     []
   );
   const playSong = useCallback(
-    (songUri) => dispatch(playlistActions.playSong(songUri)),
+    (songUri, deviceId) =>
+      dispatch(playlistActions.playSong(songUri, deviceId)),
     []
   );
   const getCurrentRoom = useCallback(
@@ -53,9 +61,6 @@ const PlaylistPage = (props) => {
   const availableDevices = useSelector((state) => {
     return state.playlist.availableDevices;
   });
-  const toggleDeviceWindow = useSelector((state) => {
-    return state.playlist.toggleDeviceWindow;
-  });
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -69,8 +74,12 @@ const PlaylistPage = (props) => {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    setShowDialog(toggleDeviceWindow);
-  }, [toggleDeviceWindow]);
+    console.log(
+      availableDevices,
+      availableDevices.length === 0 || availableDevices.length > 1
+    );
+    setShowDialog(availableDevices.length === 0 || availableDevices.length > 1);
+  }, [availableDevices]);
 
   const handleBackButton = () => {
     window.location.href = "http://localhost:3000/home";
@@ -90,6 +99,16 @@ const PlaylistPage = (props) => {
     // go to voting if more users
 
     getSong(songId);
+  };
+
+  const handleActiveDeviceSet = () => {
+    if (currentlyPlaying && activeDevice)
+      playSong(currentlyPlaying.uri, activeDevice.id);
+  };
+
+  const handleDeviceClick = (deviceId) => {
+    playSong(currentlyPlaying.uri, deviceId);
+    setShowDialog(false);
   };
 
   const playCurrentSong = () => {
@@ -127,25 +146,43 @@ const PlaylistPage = (props) => {
     );
   }
 
-  const activeDeviceModal = (
-    <div>
-      {activeDevice ? (
-        activeDevice.id
-      ) : (
-        <Dialog open={showDialog}>
-          <div className={cssClasses.Dialog}>
-            <h4>No active device found!</h4>
-            <p>Please open your Spotify on a device.</p>
-            <Button onClick={() => setShowDialog(false)}>OK</Button>
-          </div>
-        </Dialog>
-      )}
-    </div>
-  );
+  const activeDeviceModal =
+    availableDevices.length > 1 ? (
+      <Dialog open={showDialog}>
+        <div className={cssClasses.Dialog}>
+          <h4>We found the following available devices:</h4>
+          <List>
+            {availableDevices.map((device) => {
+              return (
+                <ListItem
+                  button
+                  key={device.id}
+                  onClick={() => handleDeviceClick(device.id)}
+                >
+                  {device.name + " - " + device.type}
+                </ListItem>
+              );
+            })}
+          </List>
+          <br />
+          <Button onClick={() => setShowDialog(false)}>BACK</Button>
+        </div>
+      </Dialog>
+    ) : activeDevice ? (
+      handleActiveDeviceSet()
+    ) : (
+      <Dialog open={showDialog}>
+        <div className={cssClasses.Dialog}>
+          <h4>No active device found!</h4>
+          <p>Please open your Spotify on a device.</p>
+          <Button onClick={() => setShowDialog(false)}>OK</Button>
+        </div>
+      </Dialog>
+    );
 
   return (
     <React.Fragment>
-      {toggleDeviceWindow ? activeDeviceModal : null}
+      {showDialog ? activeDeviceModal : null}
       {toggleBackdrop ? (
         <Backdrop toggleBackdrop={handleCloseBackdrop}>
           <BrowseSongsList onSongSelect={handleSongSelection} />
