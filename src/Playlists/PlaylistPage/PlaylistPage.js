@@ -1,4 +1,4 @@
-import { Button, Container, Grid } from "@material-ui/core";
+import { Button, Container, Grid, Dialog } from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import * as loginActions from "../../redux store/actions/LoginActions";
@@ -11,6 +11,7 @@ import cssClasses from "./PlaylistPage.module.css";
 
 const PlaylistPage = (props) => {
   const [toggleBackdrop, setToggleBackdrop] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
 
   const dispatch = useDispatch();
   // get user dispatchers
@@ -30,15 +31,30 @@ const PlaylistPage = (props) => {
     (roomId) => dispatch(userActions.getRoom(roomId)),
     []
   );
+
+  const getAvailableDevices = useCallback(
+    () => dispatch(playlistActions.getAvailableDevices()),
+    []
+  );
+
   // get state variables
   const isAuthenticated = useSelector((state) => {
     return state.login.token != null;
   });
-  const lastFetchedSong = useSelector((state) => {
+  const currentlyPlaying = useSelector((state) => {
     return state.playlist.lastFetchedSong;
   });
   const currentRoom = useSelector((state) => {
     return state.user.currentRoom;
+  });
+  const activeDevice = useSelector((state) => {
+    return state.playlist.activeDevice;
+  });
+  const availableDevices = useSelector((state) => {
+    return state.playlist.availableDevices;
+  });
+  const toggleDeviceWindow = useSelector((state) => {
+    return state.playlist.toggleDeviceWindow;
   });
 
   useEffect(() => {
@@ -51,6 +67,10 @@ const PlaylistPage = (props) => {
       getUserDetails();
     }
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    setShowDialog(toggleDeviceWindow);
+  }, [toggleDeviceWindow]);
 
   const handleBackButton = () => {
     window.location.href = "http://localhost:3000/home";
@@ -73,22 +93,22 @@ const PlaylistPage = (props) => {
   };
 
   const playCurrentSong = () => {
-    if (lastFetchedSong) {
-      playSong(lastFetchedSong.uri);
+    if (currentlyPlaying) {
+      getAvailableDevices();
     }
   };
 
   var currentSong = <p>No song playing</p>;
-  if (lastFetchedSong) {
+  if (currentlyPlaying) {
     currentSong = (
       <div className={cssClasses.CurrentSong}>
         <div>
-          <img src={lastFetchedSong.album.images[1].url} />
+          <img src={currentlyPlaying.album.images[1].url} />
         </div>
         <div>
-          <p className={cssClasses.CurrentSongTitle}>{lastFetchedSong.name}</p>
+          <p className={cssClasses.CurrentSongTitle}>{currentlyPlaying.name}</p>
           <p className={cssClasses.CurrentSongArtist}>
-            {lastFetchedSong.artists.map((artist) => artist.name).join(", ")}
+            {currentlyPlaying.artists.map((artist) => artist.name).join(", ")}
           </p>
         </div>
         <div
@@ -106,8 +126,26 @@ const PlaylistPage = (props) => {
       </div>
     );
   }
+
+  const activeDeviceModal = (
+    <div>
+      {activeDevice ? (
+        activeDevice.id
+      ) : (
+        <Dialog open={showDialog}>
+          <div className={cssClasses.Dialog}>
+            <h4>No active device found!</h4>
+            <p>Please open your Spotify on a device.</p>
+            <Button onClick={() => setShowDialog(false)}>OK</Button>
+          </div>
+        </Dialog>
+      )}
+    </div>
+  );
+
   return (
     <React.Fragment>
+      {toggleDeviceWindow ? activeDeviceModal : null}
       {toggleBackdrop ? (
         <Backdrop toggleBackdrop={handleCloseBackdrop}>
           <BrowseSongsList onSongSelect={handleSongSelection} />

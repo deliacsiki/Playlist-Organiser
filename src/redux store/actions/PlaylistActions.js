@@ -109,3 +109,26 @@ export const playSong = (songUri) => {
     }
   };
 };
+
+// get available devices
+export const getAvailableDevicesSuccess = (devicesList) => {
+  return {
+    type: actionTypes.GET_AVAILABLE_DEVICES,
+    devices: devicesList,
+  };
+};
+
+export const getAvailableDevices = () => {
+  return (dispatch) => {
+    var token = localStorage.getItem("token");
+    if (token) {
+      var url = Constants.GET_AVAILABLE_DEVICES;
+      axios.get(url, { headers: { Authorization: token } }).then((response) => {
+        dispatch(getAvailableDevicesSuccess(response.data));
+      });
+    } else {
+      // token either expired or user not logged in
+      window.location.href = Constants.LOCALHOST_URL_CLIENT;
+    }
+  };
+};

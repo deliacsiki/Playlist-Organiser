@@ -66,3 +66,13 @@
   border-radius: 10px;
   min-height: 100px;
 }
+
+.Dialog {
+  margin: 1rem 2rem;
+  padding: 1rem;
+  position: relative;
+}
+
+.Dialog p {
+  margin-bottom: 4rem;
+}

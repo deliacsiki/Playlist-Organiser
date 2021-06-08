@@ -9,6 +9,9 @@ const initialState = {
   currentSong: null,
   error: null,
   lastFetchedSong: null,
+  toggleDeviceWindow: false,
+  activeDevice: null,
+  availableDevices: [],
 };
 
 const searchSongStart = (state) => {
@@ -34,6 +37,13 @@ const getTrackSuccess = (state, { song }) => {
   });
 };
 
+const getAvailableDevices = (state, { devices }) => {
+  return updateObject(state, {
+    availableDevices: devices,
+    toggleDeviceWindow: true,
+  });
+};
+
 const PlaylistReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SEARCH_SONG_START:
@@ -47,6 +57,9 @@ const PlaylistReducer = (state = initialState, action) => {
 
     case actionTypes.GET_TRACK_SUCCESS:
       return getTrackSuccess(state, action);
+
+    case actionTypes.GET_AVAILABLE_DEVICES:
+      return getAvailableDevices(state, action);
 
     default:
       return state;
