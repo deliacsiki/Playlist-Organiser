@@ -86,19 +86,21 @@ const SignInPage = (props) => {
       <Grid item xs={false} sm={4} md={7} className={classes.image}></Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={3} square>
         <div className={classes.paper}>
-          <div className="box">
-            <div className="music one"></div>
-            <div className="music two"></div>
-            <div className="music three"></div>
-            <div className="music four"></div>
-            <div className="music five"></div>
+          <div className="loader">
+            <span className="stroke"></span>
+            <span className="stroke"></span>
+            <span className="stroke"></span>
+            <span className="stroke"></span>
+            <span className="stroke"></span>
+            <span className="stroke"></span>
+            <span className="stroke"></span>
           </div>
           <Typography
             component="h1"
             variant="h5"
             className={classes.description}
           >
-            Your favourite music and to your favourite friends together in one
+            Your favourite music and your favourite friends together in one
             place
           </Typography>
           <Button
@@ -110,9 +112,6 @@ const SignInPage = (props) => {
           >
             Sign in with Spotify
           </Button>
-          {/* <Avatar className={classes.avatar}>
-            <InlineIcon icon={spotifyIcon} className={classes.icon}/>
-          </Avatar> */}
         </div>
       </Grid>
     </Grid>

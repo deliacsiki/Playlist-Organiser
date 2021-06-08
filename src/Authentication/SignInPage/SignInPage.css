@@ -1,4 +1,4 @@
-.box {
+.loader {
   margin-top: 1rem;
   z-index: 10;
   position: relative;
@@ -7,46 +7,49 @@
   margin: auto;
   margin-top: 13%;
   border-radius: 50%;
-  background:#bb6bd9;
+  background: #bb6bd9;
+  padding: 1rem;
   transform: rotate(180deg);
+  display: flex;
+  align-items: center;
 }
-.music {
-  position: absolute;
-  width: 10%;
-  height: 40%;
-  background:  white;
-  border-radius: 50px;
+
+.loader .stroke {
+  display: block;
+  position: relative;
+  background: white;
+  height: 80%;
+  width: 1rem;
+  border-radius: 10px;
+  margin: 0 2px;
+  animation: animate 1.2s linear infinite;
 }
-.one {
-  left: 15%;
-  top: 30%;
-  animation: music 1s ease infinite alternate;
-}
-.two {
-  left: 30%;
-  top: 30%;
-  animation: music 1.3s ease infinite alternate;
-}
-.three {
-  left: 45%;
-  top: 30%;
-  animation: music 1.6s ease infinite alternate;
-}
-.four {
-  left: 60%;
-  top: 30%;
-  animation: music 1.9s ease infinite alternate;
-}
-.five {
-  left: 75%;
-  top: 30%;
-  animation: music 2.2s ease infinite alternate;
-}
-@keyframes music {
-  0% {
-    height: 10%;
+@keyframes animate {
+  50% {
+    height: 20%;
   }
   100% {
-    height: 40%;
+    height: 80%;
   }
+}
+.stroke:nth-child(1) {
+  animation-delay: 0s;
+}
+.stroke:nth-child(2) {
+  animation-delay: 0.3s;
+}
+.stroke:nth-child(3) {
+  animation-delay: 0.6s;
+}
+.stroke:nth-child(4) {
+  animation-delay: 0.9s;
+}
+.stroke:nth-child(5) {
+  animation-delay: 0.6s;
+}
+.stroke:nth-child(6) {
+  animation-delay: 0.3s;
+}
+.stroke:nth-child(7) {
+  animation-delay: 0s;
 }
