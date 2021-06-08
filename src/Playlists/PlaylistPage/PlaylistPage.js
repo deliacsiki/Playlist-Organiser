@@ -15,6 +15,8 @@ import Backdrop from "../../UI/Backdrop/Backdrop";
 
 import BrowseSongsList from "../BrowseSongsList/BrowseSongsList";
 import cssClasses from "./PlaylistPage.module.css";
+import Sidebar from "../../UI/Sidebar/Sidebar";
+import VotingList from "../VotingList/VotingList";
 
 const PlaylistPage = (props) => {
   const [toggleBackdrop, setToggleBackdrop] = useState(false);
@@ -74,10 +76,6 @@ const PlaylistPage = (props) => {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    console.log(
-      availableDevices,
-      availableDevices.length === 0 || availableDevices.length > 1
-    );
     setShowDialog(availableDevices.length === 0 || availableDevices.length > 1);
   }, [availableDevices]);
 
@@ -182,6 +180,9 @@ const PlaylistPage = (props) => {
 
   return (
     <React.Fragment>
+      <Sidebar>
+        <VotingList />
+      </Sidebar>
       {showDialog ? activeDeviceModal : null}
       {toggleBackdrop ? (
         <Backdrop toggleBackdrop={handleCloseBackdrop}>
