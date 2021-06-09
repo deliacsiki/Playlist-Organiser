@@ -13,13 +13,14 @@ import * as userActions from "../../redux store/actions/UserActions";
 import * as playlistActions from "../../redux store/actions/PlaylistActions";
 import Backdrop from "../../UI/Backdrop/Backdrop";
 
-import BrowseSongsList from "../BrowseSongsList/BrowseSongsList";
+import SongBrowser from "../SongBrowser/SongBrowser";
 import cssClasses from "./PlaylistPage.module.css";
 import Sidebar from "../../UI/Sidebar/Sidebar";
 import VotingList from "../VotingList/VotingList";
 
 const PlaylistPage = (props) => {
   const [toggleBackdrop, setToggleBackdrop] = useState(false);
+  const [toggleVoting, setToggleVoting] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
 
   const dispatch = useDispatch();
@@ -181,14 +182,16 @@ const PlaylistPage = (props) => {
   return (
     <React.Fragment>
       <Sidebar>
-        <VotingList />
+        <SongBrowser
+          onSongSelect={handleSongSelection}
+          onChange={() => setToggleVoting(false)}
+          onInputClear={() => {
+            setToggleVoting(true);
+          }}
+        />
+        {toggleVoting ? <VotingList /> : null}
       </Sidebar>
       {showDialog ? activeDeviceModal : null}
-      {toggleBackdrop ? (
-        <Backdrop toggleBackdrop={handleCloseBackdrop}>
-          <BrowseSongsList onSongSelect={handleSongSelection} />
-        </Backdrop>
-      ) : null}
       <div className={cssClasses.NavBar}>
         {currentRoom ? (
           <div>
@@ -204,9 +207,6 @@ const PlaylistPage = (props) => {
             {currentSong}
           </Container>
         </div>
-        <Button onClick={handleAddSong} color="primary">
-          Add a song
-        </Button>
         <div className={cssClasses.SongQueueSection}>
           <p>Songs in queue</p>
           <Grid container fullwidth className={cssClasses.SongQueue}>

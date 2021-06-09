@@ -35,8 +35,14 @@ export const searchSong = (songName) => {
         .then((response) => {
           dispatch(searchSongSuccess(response.data));
         })
-        .catch(() => {
-          dispatch(searchSongError("Some error"));
+        .catch((error) => {
+          console.log(error.response);
+          if (error.response)
+            if (error.response.status === 401) {
+              // token expired
+              dispatch(searchSongError("Some error"));
+              window.location.href = Constants.LOCALHOST_URL_CLIENT;
+            }
         });
     } else {
       // token either expired or user not logged in
