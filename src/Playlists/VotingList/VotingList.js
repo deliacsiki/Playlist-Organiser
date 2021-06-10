@@ -1,4 +1,6 @@
 import React from "react";
+import { Button } from "@material-ui/core";
+import VoteCard from "./VoteCard/VoteCard";
 
 class VotingList extends React.Component {
   constructor(props) {
@@ -9,8 +11,21 @@ class VotingList extends React.Component {
     };
   }
 
+  componentDidMount() {
+    
+  }
+
   render() {
-    return <h1>Hello</h1>;
+    const { songsList } = this.props;
+    return (
+      <div>
+        {songsList.length != 0
+          ? songsList.map((song) => {
+              return <VoteCard song={song} key={song.id} />;
+            })
+          : null}
+      </div>
+    );
   }
 }
 

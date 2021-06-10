@@ -17,8 +17,12 @@ import SongBrowser from "../SongBrowser/SongBrowser";
 import cssClasses from "./PlaylistPage.module.css";
 import Sidebar from "../../UI/Sidebar/Sidebar";
 import VotingList from "../VotingList/VotingList";
+import { w3cwebsocket as W3CWebSocket } from "websocket";
+
+const websocket = new W3CWebSocket("ws://127.0.0.1:8000");
 
 const PlaylistPage = (props) => {
+  const [currentRoomId, setCurrentRoomId] = useState(null);
   const [toggleBackdrop, setToggleBackdrop] = useState(false);
   const [toggleVoting, setToggleVoting] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
@@ -42,9 +46,13 @@ const PlaylistPage = (props) => {
     (roomId) => dispatch(userActions.getRoom(roomId)),
     []
   );
-
   const getAvailableDevices = useCallback(
     () => dispatch(playlistActions.getAvailableDevices()),
+    []
+  );
+  const addSongToVotingList = useCallback(
+    (votingListItem) =>
+      dispatch(playlistActions.addSongToVotingList(votingListItem)),
     []
   );
 
@@ -64,10 +72,38 @@ const PlaylistPage = (props) => {
   const availableDevices = useSelector((state) => {
     return state.playlist.availableDevices;
   });
+  const votingList = useSelector((state) => {
+    return state.playlist.votingList;
+  });
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    getCurrentRoom(params.get("id"));
+    var roomId = params.get("id");
+    setCurrentRoomId(roomId);
+    getCurrentRoom(roomId);
+
+    websocket.onopen = () => {
+      console.log("WebSocket Client Connected");
+      websocket.send(
+        JSON.stringify({
+          type: "client-enter-room",
+          clientId: localStorage.getItem("userId"),
+          roomId: roomId,
+          token: localStorage.getItem("token"),
+        })
+      );
+    };
+
+    websocket.onmessage = (evt) => {
+      // listen to data sent from the websocket server
+      const message = JSON.parse(evt.data);
+      switch (message.type) {
+        case "update-voting-list":
+          addSongToVotingList(message.data);
+          break;
+      }
+      console.log(message);
+    };
   }, []);
 
   useEffect(() => {
@@ -84,20 +120,17 @@ const PlaylistPage = (props) => {
     window.location.href = "http://localhost:3000/home";
   };
 
-  const handleAddSong = () => {
-    setToggleBackdrop(true);
-  };
-
-  const handleCloseBackdrop = () => {
-    setToggleBackdrop(false);
-  };
-
   const handleSongSelection = (songId) => {
-    setToggleBackdrop(false);
-    // add song to queue if only one user in room
-    // go to voting if more users
-
-    getSong(songId);
+    websocket.send(
+      JSON.stringify({
+        type: "client-wants-song",
+        roomId: currentRoomId,
+        clientId: localStorage.getItem("userId"),
+        token: localStorage.getItem("token"),
+        song: songId,
+      })
+    );
+    // getSong(songId);
   };
 
   const handleActiveDeviceSet = () => {
@@ -189,7 +222,7 @@ const PlaylistPage = (props) => {
             setToggleVoting(true);
           }}
         />
-        {toggleVoting ? <VotingList /> : null}
+        {toggleVoting ? <VotingList songsList={votingList} /> : null}
       </Sidebar>
       {showDialog ? activeDeviceModal : null}
       <div className={cssClasses.NavBar}>

@@ -47,6 +47,11 @@ const SongBrowser = ({ onSongSelect, onChange, onInputClear }) => {
     }
   };
 
+  const handleSongSelect = (songId) => {
+    handleInputChange("");
+    onSongSelect(songId);
+  };
+
   return (
     <div className={cssClasses.BrowseSongsList}>
       <Container className={cssClasses.SearchContainer}>
@@ -62,7 +67,7 @@ const SongBrowser = ({ onSongSelect, onChange, onInputClear }) => {
                 <SongCard
                   key={song.id}
                   song={song}
-                  onClick={() => onSongSelect(song.id)}
+                  onClick={() => handleSongSelect(song.id)}
                 />
               );
             })}

@@ -139,3 +139,13 @@ export const getAvailableDevices = () => {
     }
   };
 };
+
+// add song to voting list
+export const addSongToVotingList = (votingListItem) => {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.ADD_NEW_SONG_TO_VOTING_LIST,
+      item: votingListItem,
+    });
+  };
+};

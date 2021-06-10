@@ -30,6 +30,8 @@ const useStyles = makeStyles({
     },
   },
   drawer: {
+    height: "100vh",
+    top: 0,
     "& > div": {
       overflowY: "visible !important",
     },
@@ -45,7 +47,7 @@ const useStyles = makeStyles({
     background: "#f2f2f2",
     padding: "1rem",
     "& > div:nth-child(2)": {
-      height: "100vh",
+      // height: "100vh",
     },
   },
   closeButton: {
