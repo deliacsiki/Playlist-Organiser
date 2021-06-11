@@ -149,3 +149,15 @@ export const addSongToVotingList = (votingListItem) => {
     });
   };
 };
+
+// update voting list
+export const updateVotingList = (votingList) => {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.UPDATE_VOTING_LIST,
+      votingList: votingList,
+    });
+  };
+};
+
+

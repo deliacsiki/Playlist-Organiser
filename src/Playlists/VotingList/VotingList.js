@@ -16,7 +16,7 @@ class VotingList extends React.Component {
   render() {
     const { songsList } = this.props;
     return (
-      <div>
+      <div style={{height: "100%", overflow:"scroll", marginTop:"1rem"}}>
         {songsList.length != 0
           ? songsList.map((song) => {
               return <VoteCard song={song} onVote={this.props.onVote} />;

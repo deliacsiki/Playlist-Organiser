@@ -52,6 +52,12 @@ const addSongToVotingList = (state, { item }) => {
   });
 };
 
+const updateVotingList = (state, { votingList }) => {
+  return updateObject(state, {
+    votingList: [...votingList],
+  });
+};
+
 const PlaylistReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SEARCH_SONG_START:
@@ -71,6 +77,9 @@ const PlaylistReducer = (state = initialState, action) => {
 
     case actionTypes.ADD_NEW_SONG_TO_VOTING_LIST:
       return addSongToVotingList(state, action);
+
+    case actionTypes.UPDATE_VOTING_LIST:
+      return updateVotingList(state, action);
 
     default:
       return state;

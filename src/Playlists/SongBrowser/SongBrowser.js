@@ -53,7 +53,12 @@ const SongBrowser = ({ onSongSelect, onChange, onInputClear }) => {
   };
 
   return (
-    <div className={cssClasses.BrowseSongsList}>
+    <div
+      style={{
+        height:
+          fetchedSongs && searchValue && searchValue != "" ? "100%" : "auto",
+      }}
+    >
       <Container className={cssClasses.SearchContainer}>
         <SearchBar
           value={searchValue}

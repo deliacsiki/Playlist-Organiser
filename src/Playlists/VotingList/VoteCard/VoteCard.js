@@ -17,6 +17,9 @@ const styles = {
   },
   rightSection: {
     paddingLeft: "1rem",
+    "& h4": {
+      marginTop: "0 !important",
+    },
   },
   whiteCard: {
     marginTop: "-0.4rem",
@@ -63,11 +66,16 @@ const styles = {
 class VoteCard extends React.Component {
   render() {
     const { song, classes, onVote } = this.props;
-    
+
     return (
       <div key={song.id} className={classes.root}>
         <div>
-          <img src={song.clientProfile} />
+          <img
+            src={
+              song.clientProfile ||
+              "https://cdn.pixabay.com/photo/2016/12/02/12/06/background-1877690_960_720.jpg"
+            }
+          />
         </div>
         <div className={classes.rightSection}>
           <h4>{`${song.clientName} wants this song:`}</h4>

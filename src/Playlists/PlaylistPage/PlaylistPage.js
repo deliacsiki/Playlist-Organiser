@@ -56,6 +56,11 @@ const PlaylistPage = (props) => {
       dispatch(playlistActions.addSongToVotingList(votingListItem)),
     []
   );
+  const updateVotingList = useCallback(
+    (votingList) =>
+      dispatch(playlistActions.updateVotingList(votingList)),
+    []
+  );
 
   // get state variables
   const isAuthenticated = useSelector((state) => {
@@ -101,6 +106,9 @@ const PlaylistPage = (props) => {
       switch (message.type) {
         case "update-voting-list":
           addSongToVotingList(message.data);
+          break;
+        case "update-room":
+          updateVotingList(message.data.votingList);
           break;
       }
       console.log(message);

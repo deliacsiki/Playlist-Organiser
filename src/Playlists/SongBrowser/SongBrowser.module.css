@@ -2,9 +2,13 @@
   height: 100%;
 }
 
+.BrowseSongsList{
+  height: 100%;
+}
+
 .SongsList {
   margin-top: 1rem;
-  height: 85%;
-  overflow: auto;
+  height: 100%;
+  overflow: scroll;
   transition: ease-in-out 0.4s;
 }
