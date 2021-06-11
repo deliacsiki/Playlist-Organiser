@@ -12,6 +12,7 @@ import * as loginActions from "../../redux store/actions/LoginActions";
 import * as userActions from "../../redux store/actions/UserActions";
 import * as playlistActions from "../../redux store/actions/PlaylistActions";
 import Backdrop from "../../UI/Backdrop/Backdrop";
+import { capitalize } from "../../common/utilities";
 
 import SongBrowser from "../SongBrowser/SongBrowser";
 import cssClasses from "./PlaylistPage.module.css";
@@ -149,6 +150,19 @@ const PlaylistPage = (props) => {
     }
   };
 
+  const handleNewVote = (vote, songId) => {
+    websocket.send(
+      JSON.stringify({
+        type: "client-voted-song",
+        roomId: currentRoomId,
+        clientId: localStorage.getItem("userId"),
+        token: localStorage.getItem("token"),
+        songId: songId,
+        vote: `votes${capitalize(vote)}`,
+      })
+    );
+  };
+
   var currentSong = <p>No song playing</p>;
   if (currentlyPlaying) {
     currentSong = (
@@ -222,7 +236,13 @@ const PlaylistPage = (props) => {
             setToggleVoting(true);
           }}
         />
-        {toggleVoting ? <VotingList songsList={votingList} /> : null}
+        {toggleVoting ? (
+          <VotingList
+            songsList={votingList}
+            websocket={websocket}
+            onVote={handleNewVote}
+          />
+        ) : null}
       </Sidebar>
       {showDialog ? activeDeviceModal : null}
       <div className={cssClasses.NavBar}>

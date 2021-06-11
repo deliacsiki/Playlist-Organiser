@@ -11,9 +11,7 @@ class VotingList extends React.Component {
     };
   }
 
-  componentDidMount() {
-    
-  }
+  componentDidMount() {}
 
   render() {
     const { songsList } = this.props;
@@ -21,7 +19,7 @@ class VotingList extends React.Component {
       <div>
         {songsList.length != 0
           ? songsList.map((song) => {
-              return <VoteCard song={song} key={song.id} />;
+              return <VoteCard song={song} onVote={this.props.onVote} />;
             })
           : null}
       </div>

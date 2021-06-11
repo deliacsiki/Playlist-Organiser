@@ -1,10 +1,12 @@
 import React from "react";
 
 import { withStyles } from "@material-ui/core";
+import CheckmarkIcon from "../../../resources/icons/CheckmarkIcon";
+import CloseIcon from "../../../resources/icons/CloseIcon";
 
 const styles = {
   root: {
-    margin: "2rem 2rem 2rem 0",
+    margin: "2rem",
     minHeight: "200px",
     display: "flex",
     "& img": {
@@ -33,27 +35,37 @@ const styles = {
   votingSection: {
     marginTop: "1rem",
   },
+  votingIcons: {
+    display: "flex",
+    justifyContent: "flex-end",
+    "& svg": {
+      marginLeft: "1rem",
+      cursor: "pointer",
+      transition: "ease-in-out 0.4s",
+    },
+  },
+  checkmarkIcon: {
+    "& :hover": {
+      "& path": {
+        fill: "#418F3D",
+      },
+    },
+  },
+  closeIcon: {
+    "& :hover": {
+      "& path": {
+        fill: "#CC0000",
+      },
+    },
+  },
 };
 
 class VoteCard extends React.Component {
   render() {
-    const { song, key, classes } = this.props;
-    // clientId: clientId,
-    // clientName:
-    // clientProfile
-    // song: {
-    //   id: songId,
-    //   uri: fetchedTrack.body.uri,
-    //   name: fetchedTrack.body.name,
-    //   artist: fetchedTrack.body.artists
-    //     .map((artist) => artist.name)
-    //     .join(", "),
-    //   albumImg: fetchedTrack.body.album.images[0].url || "",
-    // },
-    // votesYes: 0,
-    // votesNo: 0,
+    const { song, classes, onVote } = this.props;
+    
     return (
-      <div key={key} className={classes.root}>
+      <div key={song.id} className={classes.root}>
         <div>
           <img src={song.clientProfile} />
         </div>
@@ -72,6 +84,20 @@ class VoteCard extends React.Component {
             <div className={classes.hr}></div>
             <div className={classes.votingSection}>
               <p>Do you want this song to be added to the queue?</p>
+              <div className={classes.votingIcons}>
+                <CheckmarkIcon
+                  height="40px"
+                  width="40px"
+                  className={classes.checkmarkIcon}
+                  onClick={() => onVote("yes", song.id)}
+                />
+                <CloseIcon
+                  height="40px"
+                  width="40px"
+                  className={classes.closeIcon}
+                  onClick={() => onVote("no", song.id)}
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -11,7 +11,8 @@ export const updateObject = (oldObject, updatedProps) => {
 /*
     Method that returns the query parameters from an URL
 */
-export const getJsonFromUrl = (url) => { /* eslint-disable */
+export const getJsonFromUrl = (url) => {
+  /* eslint-disable */
   if (!url) url = window.location.href;
   var question = url.indexOf("?");
   var hash = url.indexOf("#");
@@ -40,4 +41,12 @@ export const getJsonFromUrl = (url) => { /* eslint-disable */
     }
   });
   return result;
+};
+
+/*
+    Method that capitalizes given string
+*/
+export const capitalize = (str) => {
+  const lower = str.toLowerCase();
+  return str.charAt(0).toUpperCase() + lower.slice(1);
 };
