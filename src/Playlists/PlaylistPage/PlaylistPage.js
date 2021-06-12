@@ -109,12 +109,17 @@ const PlaylistPage = (props) => {
       switch (message.type) {
         case "update-room":
           updateVotingList(message.data.votingList);
+          // update queues
+          // update currently playing
           break;
         case "update-voting-list":
-          addSongToVotingList(message.data);
+          updateVotingList(message.data);
           break;
         case "update-song-votinglist":
           updateOneSongFromVotingList(message.data);
+          break;
+        case "add-to-voting-list":
+          addSongToVotingList(message.data);
           break;
       }
       console.log(message);
