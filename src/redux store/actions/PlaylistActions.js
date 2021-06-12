@@ -168,8 +168,7 @@ export const updateOneSongFromVotingList = (song) => {
       song: song,
     });
   };
-}
-
+};
 
 // update song queue
 export const updateQueueList = (queueList) => {
@@ -179,4 +178,13 @@ export const updateQueueList = (queueList) => {
       queueList: queueList,
     });
   };
-}
+};
+
+export const updateCurrentlyPlaying = (song) => {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.UPDATE_CURRENTLY_PLAYING,
+      song: song,
+    });
+  };
+};

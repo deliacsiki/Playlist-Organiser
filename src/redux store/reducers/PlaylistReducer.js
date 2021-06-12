@@ -13,6 +13,7 @@ const initialState = {
   availableDevices: [],
   votingList: [],
   queueList: [],
+  currentlyPlaying: null,
 };
 
 const searchSongStart = (state) => {
@@ -73,6 +74,11 @@ const updateQueueList = (state, { queueList }) => {
     queueList: [...queueList],
   });
 };
+const updateCurrentlyPlaying = (state, { song }) => {
+  return updateObject(state, {
+    currentlyPlaying: { ...song },
+  });
+};
 
 const PlaylistReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -102,6 +108,9 @@ const PlaylistReducer = (state = initialState, action) => {
 
     case actionTypes.UPDATE_QUEUE_LIST:
       return updateQueueList(state, action);
+
+    case actionTypes.UPDATE_CURRENTLY_PLAYING:
+      return updateCurrentlyPlaying(state, action);
 
     default:
       return state;

@@ -70,13 +70,17 @@ const PlaylistPage = (props) => {
     (queueList) => dispatch(playlistActions.updateQueueList(queueList)),
     []
   );
+  const updateCurrentlyPlaying = useCallback(
+    (song) => dispatch(playlistActions.updateCurrentlyPlaying(song)),
+    []
+  );
 
   // get state variables
   const isAuthenticated = useSelector((state) => {
     return state.login.token != null;
   });
   const currentlyPlaying = useSelector((state) => {
-    return state.playlist.lastFetchedSong;
+    return state.playlist.currentlyPlaying;
   });
   const currentRoom = useSelector((state) => {
     return state.user.currentRoom;
@@ -132,6 +136,9 @@ const PlaylistPage = (props) => {
           break;
         case "add-to-voting-list":
           addSongToVotingList(message.data);
+          break;
+        case "update-currently-playing":
+          updateCurrentlyPlaying(message.data);
           break;
       }
       console.log(message);
@@ -215,12 +222,12 @@ const PlaylistPage = (props) => {
     currentSong = (
       <div className={cssClasses.CurrentSong}>
         <div>
-          <img src={currentlyPlaying.album.images[1].url} />
+          <img src={currentlyPlaying.data.albumImg} />
         </div>
         <div>
-          <p className={cssClasses.CurrentSongTitle}>{currentlyPlaying.name}</p>
+          <p className={cssClasses.CurrentSongTitle}>{currentlyPlaying.data.name}</p>
           <p className={cssClasses.CurrentSongArtist}>
-            {currentlyPlaying.artists.map((artist) => artist.name).join(", ")}
+            {currentlyPlaying.data.artists.map((artist) => artist.name).join(", ")}
           </p>
         </div>
         <div
