@@ -3,14 +3,19 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: #ccc;
+  background-color: #25283d;
+  color: white;
   height: 20px;
+}
+
+.NavBar button {
+  color: white;
 }
 
 .PlaylistPage {
   background-color: #f2f2f2;
   height: calc(100% - 20px);
-  padding: 2rem;
+  padding: 2rem 20%;
 }
 
 .PlaylistPage button {
