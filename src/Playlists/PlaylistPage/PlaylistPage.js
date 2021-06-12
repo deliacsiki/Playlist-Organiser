@@ -184,17 +184,17 @@ const PlaylistPage = (props) => {
           songDataId: songId,
         })
       );
-    }, 200);
+    }, 300);
     // getSong(songId);
   };
 
   const handleActiveDeviceSet = () => {
     if (currentlyPlaying && activeDevice)
-      playSong(currentlyPlaying.uri, activeDevice.id);
+      playSong(currentlyPlaying.data.uri, activeDevice.id);
   };
 
   const handleDeviceClick = (deviceId) => {
-    playSong(currentlyPlaying.uri, deviceId);
+    playSong(currentlyPlaying.data.uri, deviceId);
     setShowDialog(false);
   };
 
@@ -225,9 +225,13 @@ const PlaylistPage = (props) => {
           <img src={currentlyPlaying.data.albumImg} />
         </div>
         <div>
-          <p className={cssClasses.CurrentSongTitle}>{currentlyPlaying.data.name}</p>
+          <p className={cssClasses.CurrentSongTitle}>
+            {currentlyPlaying.data.name}
+          </p>
           <p className={cssClasses.CurrentSongArtist}>
-            {currentlyPlaying.data.artists.map((artist) => artist.name).join(", ")}
+            {currentlyPlaying.data.artists
+              .map((artist) => artist.name)
+              .join(", ")}
           </p>
         </div>
         <div
