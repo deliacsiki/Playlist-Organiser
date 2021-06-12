@@ -95,14 +95,16 @@ export const playSongSuccess = () => {
   };
 };
 
-export const playSong = (songUri, deviceId = null) => {
+export const playSong = (song, deviceId = null, timestamp) => {
   return (dispatch) => {
     var token = localStorage.getItem("token");
     if (token) {
       var url = Constants.PLAY_SONG;
       var postData = {
         deviceId: deviceId || null,
-        uri: songUri,
+        uri: song.uri,
+        songDuration: song.duration,
+        timestamp: timestamp,
       };
       axios
         .post(url, postData, { headers: { Authorization: token } })

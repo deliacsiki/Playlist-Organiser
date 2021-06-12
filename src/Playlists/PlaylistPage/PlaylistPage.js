@@ -41,8 +41,8 @@ const PlaylistPage = (props) => {
     []
   );
   const playSong = useCallback(
-    (songUri, deviceId) =>
-      dispatch(playlistActions.playSong(songUri, deviceId)),
+    (song, deviceId, timestamp) =>
+      dispatch(playlistActions.playSong(song, deviceId, timestamp)),
     []
   );
   const getCurrentRoom = useCallback(
@@ -190,11 +190,15 @@ const PlaylistPage = (props) => {
 
   const handleActiveDeviceSet = () => {
     if (currentlyPlaying && activeDevice)
-      playSong(currentlyPlaying.data.uri, activeDevice.id);
+      playSong(
+        currentlyPlaying.data,
+        activeDevice.id,
+        currentlyPlaying.timestamp
+      );
   };
 
   const handleDeviceClick = (deviceId) => {
-    playSong(currentlyPlaying.data.uri, deviceId);
+    playSong(currentlyPlaying.data, deviceId, currentlyPlaying.timestamp);
     setShowDialog(false);
   };
 
