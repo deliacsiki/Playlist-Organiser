@@ -169,3 +169,14 @@ export const updateOneSongFromVotingList = (song) => {
     });
   };
 }
+
+
+// update song queue
+export const updateQueueList = (queueList) => {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.UPDATE_QUEUE_LIST,
+      queueList: queueList,
+    });
+  };
+}

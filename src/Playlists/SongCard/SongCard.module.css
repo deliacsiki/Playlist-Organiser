@@ -9,9 +9,21 @@
   margin-bottom: 1rem;
   margin-right: 0.2rem;
   transition: ease-in-out 0.1s;
+  position: relative;
 }
 
-.SongCard:hover {
+.DisplayFlex {
+  display: flex;
+}
+
+.AlbumImg {
+  height: 60px;
+  width: 60px;
+  border-radius: 10px;
+  margin-right: 2rem;
+}
+
+.SongCardWithHover:hover {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }

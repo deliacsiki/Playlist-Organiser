@@ -15,6 +15,7 @@ import Backdrop from "../../UI/Backdrop/Backdrop";
 import { capitalize } from "../../common/utilities";
 
 import SongBrowser from "../SongBrowser/SongBrowser";
+import SongCard from "../SongCard/SongCard";
 import cssClasses from "./PlaylistPage.module.css";
 import Sidebar from "../../UI/Sidebar/Sidebar";
 import VotingList from "../VotingList/VotingList";
@@ -64,6 +65,10 @@ const PlaylistPage = (props) => {
     (song) => dispatch(playlistActions.updateOneSongFromVotingList(song)),
     []
   );
+  const updateQueueList = useCallback(
+    (queueList) => dispatch(playlistActions.updateQueueList(queueList)),
+    []
+  );
 
   // get state variables
   const isAuthenticated = useSelector((state) => {
@@ -83,6 +88,9 @@ const PlaylistPage = (props) => {
   });
   const votingList = useSelector((state) => {
     return state.playlist.votingList;
+  });
+  const queueList = useSelector((state) => {
+    return state.playlist.queueList;
   });
 
   useEffect(() => {
@@ -114,6 +122,9 @@ const PlaylistPage = (props) => {
           break;
         case "update-voting-list":
           updateVotingList(message.data);
+          break;
+        case "update-queue-list":
+          updateQueueList(message.data);
           break;
         case "update-song-votinglist":
           updateOneSongFromVotingList(message.data);
@@ -282,7 +293,23 @@ const PlaylistPage = (props) => {
         <div className={cssClasses.SongQueueSection}>
           <p>Songs in queue</p>
           <Grid container fullwidth className={cssClasses.SongQueue}>
-            {/* songs in queue */}
+            {queueList && queueList.length != 0
+              ? queueList.map((song) => {
+                  return (
+                    <SongCard
+                      key={song.id}
+                      song={song.song}
+                      style={{ width: "100%" }}
+                      withAlbumArt={true}
+                      withHover={false}
+                      withSkipButton={true}
+                      onSkip={() => {
+                        console.log("SKipping");
+                      }}
+                    />
+                  );
+                })
+              : null}
           </Grid>
         </div>
       </div>

@@ -12,6 +12,7 @@ const initialState = {
   activeDevice: null,
   availableDevices: [],
   votingList: [],
+  queueList: [],
 };
 
 const searchSongStart = (state) => {
@@ -67,6 +68,12 @@ const updateOneSongVotingList = (state, { song }) => {
   });
 };
 
+const updateQueueList = (state, { queueList }) => {
+  return updateObject(state, {
+    queueList: [...queueList],
+  });
+};
+
 const PlaylistReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SEARCH_SONG_START:
@@ -92,6 +99,9 @@ const PlaylistReducer = (state = initialState, action) => {
 
     case actionTypes.UPDATE_ONE_VOTING_LIST:
       return updateOneSongVotingList(state, action);
+
+    case actionTypes.UPDATE_QUEUE_LIST:
+      return updateQueueList(state, action);
 
     default:
       return state;

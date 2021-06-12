@@ -107,7 +107,7 @@ class VoteCard extends React.Component {
                 <p>
                   <b>{song.song.name}</b>
                 </p>
-                <p>{song.song.artist}</p>
+                <p>{song.song.artists.map((song) => song.name).join(", ")}</p>
               </div>
               <img src={song.song.albumImg} />
             </div>
