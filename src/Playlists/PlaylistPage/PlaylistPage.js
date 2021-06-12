@@ -57,8 +57,11 @@ const PlaylistPage = (props) => {
     []
   );
   const updateVotingList = useCallback(
-    (votingList) =>
-      dispatch(playlistActions.updateVotingList(votingList)),
+    (votingList) => dispatch(playlistActions.updateVotingList(votingList)),
+    []
+  );
+  const updateOneSongFromVotingList = useCallback(
+    (song) => dispatch(playlistActions.updateOneSongFromVotingList(song)),
     []
   );
 
@@ -104,11 +107,14 @@ const PlaylistPage = (props) => {
       // listen to data sent from the websocket server
       const message = JSON.parse(evt.data);
       switch (message.type) {
+        case "update-room":
+          updateVotingList(message.data.votingList);
+          break;
         case "update-voting-list":
           addSongToVotingList(message.data);
           break;
-        case "update-room":
-          updateVotingList(message.data.votingList);
+        case "update-song-votinglist":
+          updateOneSongFromVotingList(message.data);
           break;
       }
       console.log(message);

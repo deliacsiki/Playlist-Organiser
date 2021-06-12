@@ -58,6 +58,15 @@ const updateVotingList = (state, { votingList }) => {
   });
 };
 
+const updateOneSongVotingList = (state, { song }) => {
+  var votingListCopy = [...state.votingList];
+  var songIndex = votingListCopy.findIndex((vsong) => vsong.id === song.id);
+  if (songIndex != -1) votingListCopy[songIndex] = song;
+  return updateObject(state, {
+    votingList: votingListCopy,
+  });
+};
+
 const PlaylistReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SEARCH_SONG_START:
@@ -80,6 +89,9 @@ const PlaylistReducer = (state = initialState, action) => {
 
     case actionTypes.UPDATE_VOTING_LIST:
       return updateVotingList(state, action);
+
+    case actionTypes.UPDATE_ONE_VOTING_LIST:
+      return updateOneSongVotingList(state, action);
 
     default:
       return state;

@@ -30,6 +30,9 @@ const styles = {
   songSection: {
     display: "flex",
     justifyContent: "space-between",
+    "& img": {
+      marginLeft: "1rem",
+    },
   },
   hr: {
     height: "1px",
@@ -61,9 +64,28 @@ const styles = {
       },
     },
   },
+  votingScores: {
+    display: "flex",
+    justifyContent: "flex-end",
+    "& > div": {
+      width: "40px",
+      height: "40px",
+      textAlign: "center",
+    },
+  },
 };
 
 class VoteCard extends React.Component {
+  state = {
+    userId: null,
+  };
+
+  componentDidMount() {
+    this.setState({
+      userId: localStorage.getItem("userId"),
+    });
+  }
+
   render() {
     const { song, classes, onVote } = this.props;
 
@@ -91,21 +113,34 @@ class VoteCard extends React.Component {
             </div>
             <div className={classes.hr}></div>
             <div className={classes.votingSection}>
-              <p>Do you want this song to be added to the queue?</p>
-              <div className={classes.votingIcons}>
-                <CheckmarkIcon
-                  height="40px"
-                  width="40px"
-                  className={classes.checkmarkIcon}
-                  onClick={() => onVote("yes", song.id)}
-                />
-                <CloseIcon
-                  height="40px"
-                  width="40px"
-                  className={classes.closeIcon}
-                  onClick={() => onVote("no", song.id)}
-                />
-              </div>
+              {song.clientsWhoVoted.includes(this.state.userId) ? (
+                <React.Fragment>
+                  <p>Current votes on this song:</p>
+                  <div className={classes.votingScores}>
+                    <div className={classes.votesYes}>{song.votesYes}</div>
+                    <div className={classes.votesNo}>{song.votesNo}</div>
+                  </div>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <p>Do you want this song to be added to the queue?</p>
+
+                  <div className={classes.votingIcons}>
+                    <CheckmarkIcon
+                      height="40px"
+                      width="40px"
+                      className={classes.checkmarkIcon}
+                      onClick={() => onVote("yes", song.id)}
+                    />
+                    <CloseIcon
+                      height="40px"
+                      width="40px"
+                      className={classes.closeIcon}
+                      onClick={() => onVote("no", song.id)}
+                    />
+                  </div>
+                </React.Fragment>
+              )}
             </div>
           </div>
         </div>

@@ -160,4 +160,12 @@ export const updateVotingList = (votingList) => {
   };
 };
 
-
+// update one song from voting list
+export const updateOneSongFromVotingList = (song) => {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.UPDATE_ONE_VOTING_LIST,
+      song: song,
+    });
+  };
+}
