@@ -122,8 +122,8 @@ const PlaylistPage = (props) => {
       switch (message.type) {
         case "update-room":
           updateVotingList(message.data.votingList);
-          // update queues
-          // update currently playing
+          updateQueueList(message.data.queueList);
+          updateCurrentlyPlaying(message.data.currentSong);
           break;
         case "update-voting-list":
           updateVotingList(message.data);
@@ -139,6 +139,9 @@ const PlaylistPage = (props) => {
           break;
         case "update-currently-playing":
           updateCurrentlyPlaying(message.data);
+          break;
+        case "play-next-song":
+          playSong(message.data.data, activeDevice, message.data.timestamp);
           break;
       }
       console.log(message);
