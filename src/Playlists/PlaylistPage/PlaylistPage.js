@@ -24,6 +24,7 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 const websocket = new W3CWebSocket("ws://127.0.0.1:8000");
 
 const PlaylistPage = (props) => {
+  const [firstRender, setFirstRender] = useState(true);
   const [currentRoomId, setCurrentRoomId] = useState(null);
   const [toggleBackdrop, setToggleBackdrop] = useState(false);
   const [toggleVoting, setToggleVoting] = useState(true);
@@ -144,7 +145,11 @@ const PlaylistPage = (props) => {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    setShowDialog(availableDevices.length === 0 || availableDevices.length > 1);
+    if (!firstRender)
+      setShowDialog(
+        availableDevices.length === 0 || availableDevices.length > 1
+      );
+    else setFirstRender(false);
   }, [availableDevices]);
 
   const handleBackButton = () => {
@@ -161,6 +166,18 @@ const PlaylistPage = (props) => {
         song: songId,
       })
     );
+    setTimeout(() => {
+      websocket.send(
+        JSON.stringify({
+          type: "client-voted-song",
+          roomId: currentRoomId,
+          clientId: localStorage.getItem("userId"),
+          token: localStorage.getItem("token"),
+          vote: `votesYes`,
+          songDataId: songId,
+        })
+      );
+    }, 200);
     // getSong(songId);
   };
 
@@ -298,7 +315,7 @@ const PlaylistPage = (props) => {
                   return (
                     <SongCard
                       key={song.id}
-                      song={song.song}
+                      song={song.data}
                       style={{ width: "100%" }}
                       withAlbumArt={true}
                       withHover={false}
