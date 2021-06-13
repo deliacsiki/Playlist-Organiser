@@ -36,7 +36,6 @@ export const searchSong = (songName) => {
           dispatch(searchSongSuccess(response.data));
         })
         .catch((error) => {
-          console.log(error.response);
           if (error.response)
             if (error.response.status === 401) {
               // token expired
@@ -111,7 +110,45 @@ export const playSong = (song, deviceId = null, timestamp) => {
         .then((response) => {
           dispatch(playSongSuccess(response.data.tracks));
         })
-        .catch(() => {});
+        .catch((error) => {
+          if (error.response)
+            if (error.response.status === 404) {
+              dispatch({
+                type: actionTypes.SET_ACTIVE_DEVICE,
+                device: null,
+              });
+            }
+        });
+    } else {
+      // token either expired or user not logged in
+      window.location.href = Constants.LOCALHOST_URL_CLIENT;
+    }
+  };
+};
+
+// pause a song
+
+export const pauseSong = (song, deviceId = null) => {
+  return (dispatch) => {
+    var token = localStorage.getItem("token");
+    if (token) {
+      var url = Constants.PAUSE_SONG;
+      var postData = {
+        deviceId: deviceId || null,
+        uri: song.uri,
+      };
+      axios
+        .post(url, postData, { headers: { Authorization: token } })
+        .then((response) => {})
+        .catch((error) => {
+          if (error.response)
+            if (error.response.status === 404) {
+              dispatch({
+                type: actionTypes.SET_ACTIVE_DEVICE,
+                device: null,
+              });
+            }
+        });
     } else {
       // token either expired or user not logged in
       window.location.href = Constants.LOCALHOST_URL_CLIENT;
@@ -139,6 +176,15 @@ export const getAvailableDevices = () => {
       // token either expired or user not logged in
       window.location.href = Constants.LOCALHOST_URL_CLIENT;
     }
+  };
+};
+
+export const setActiveDevice = (device) => {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.SET_ACTIVE_DEVICE,
+      device: device,
+    });
   };
 };
 

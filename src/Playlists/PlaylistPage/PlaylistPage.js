@@ -29,6 +29,7 @@ const PlaylistPage = (props) => {
   const [toggleBackdrop, setToggleBackdrop] = useState(false);
   const [toggleVoting, setToggleVoting] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
+  const [togglePause, setTogglePause] = useState(false);
 
   const dispatch = useDispatch();
   // get user dispatchers
@@ -72,6 +73,14 @@ const PlaylistPage = (props) => {
   );
   const updateCurrentlyPlaying = useCallback(
     (song) => dispatch(playlistActions.updateCurrentlyPlaying(song)),
+    []
+  );
+  const setActiveDevice = useCallback(
+    (deviceId) => dispatch(playlistActions.setActiveDevice(deviceId)),
+    []
+  );
+  const pauseSong = useCallback(
+    (song, deviceId) => dispatch(playlistActions.pauseSong(song, deviceId)),
     []
   );
 
@@ -155,14 +164,41 @@ const PlaylistPage = (props) => {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    if (!firstRender)
-      setShowDialog(
-        availableDevices.length === 0 || availableDevices.length > 1
-      );
-    else setFirstRender(false);
-  }, [availableDevices]);
+    if (!firstRender) {
+      if (availableDevices && !activeDevice)
+        if (availableDevices.length > 1) {
+          setShowDialog(true);
+        } else {
+          if (availableDevices.length === 1)
+            setActiveDevice(availableDevices[0]);
+          else setShowDialog(true);
+        }
+      else {
+        if (activeDevice && currentlyPlaying) {
+          console.log("here");
+          playSong(
+            currentlyPlaying.data,
+            activeDevice.id,
+            currentlyPlaying.timestamp
+          );
+          setTogglePause(true);
+        } else if (currentlyPlaying) {
+          setShowDialog(true);
+        }
+      }
+    } else {
+      setFirstRender(false);
+    }
+  }, [activeDevice, availableDevices]);
 
   const handleBackButton = () => {
+    websocket.send(
+      JSON.stringify({
+        type: "client-left-room",
+        roomId: currentRoomId,
+        clientId: localStorage.getItem("userId"),
+      })
+    );
     window.location.href = "http://localhost:3000/home";
   };
 
@@ -191,23 +227,32 @@ const PlaylistPage = (props) => {
     // getSong(songId);
   };
 
-  const handleActiveDeviceSet = () => {
-    if (currentlyPlaying && activeDevice)
-      playSong(
-        currentlyPlaying.data,
-        activeDevice.id,
-        currentlyPlaying.timestamp
-      );
-  };
-
-  const handleDeviceClick = (deviceId) => {
-    playSong(currentlyPlaying.data, deviceId, currentlyPlaying.timestamp);
+  const handleDeviceClick = (device) => {
+    setActiveDevice(device.id);
+    playSong(currentlyPlaying.data, device.id, currentlyPlaying.timestamp);
     setShowDialog(false);
+    setTogglePause(true);
   };
 
   const playCurrentSong = () => {
     if (currentlyPlaying) {
-      getAvailableDevices();
+      if (activeDevice) {
+        playSong(
+          currentlyPlaying.data,
+          activeDevice.id,
+          currentlyPlaying.timestamp
+        );
+        setTogglePause(true);
+      } else {
+        getAvailableDevices();
+      }
+    }
+  };
+
+  const pauseCurrentSong = () => {
+    if (currentlyPlaying && activeDevice) {
+      pauseSong(currentlyPlaying.data, activeDevice.id);
+      setTogglePause(false);
     }
   };
 
@@ -241,55 +286,37 @@ const PlaylistPage = (props) => {
               .join(", ")}
           </p>
         </div>
-        <div
-          style={{
-            color: "white",
-            position: "absolute",
-            bottom: 0,
-            right: 0,
-            cursor: "pointer",
-          }}
-          onClick={playCurrentSong}
-        >
-          PLAY
-        </div>
+
+        {!togglePause ? (
+          <div
+            style={{
+              color: "white",
+              position: "absolute",
+              bottom: 0,
+              right: 0,
+              cursor: "pointer",
+            }}
+            onClick={playCurrentSong}
+          >
+            PLAY
+          </div>
+        ) : (
+          <div
+            style={{
+              color: "white",
+              position: "absolute",
+              bottom: 0,
+              right: 0,
+              cursor: "pointer",
+            }}
+            onClick={pauseCurrentSong}
+          >
+            PAUSE
+          </div>
+        )}
       </div>
     );
   }
-
-  const activeDeviceModal =
-    availableDevices.length > 1 ? (
-      <Dialog open={showDialog}>
-        <div className={cssClasses.Dialog}>
-          <h4>We found the following available devices:</h4>
-          <List>
-            {availableDevices.map((device) => {
-              return (
-                <ListItem
-                  button
-                  key={device.id}
-                  onClick={() => handleDeviceClick(device.id)}
-                >
-                  {device.name + " - " + device.type}
-                </ListItem>
-              );
-            })}
-          </List>
-          <br />
-          <Button onClick={() => setShowDialog(false)}>BACK</Button>
-        </div>
-      </Dialog>
-    ) : activeDevice ? (
-      handleActiveDeviceSet()
-    ) : (
-      <Dialog open={showDialog}>
-        <div className={cssClasses.Dialog}>
-          <h4>No active device found!</h4>
-          <p>Please open your Spotify on a device.</p>
-          <Button onClick={() => setShowDialog(false)}>OK</Button>
-        </div>
-      </Dialog>
-    );
 
   return (
     <React.Fragment>
@@ -309,7 +336,38 @@ const PlaylistPage = (props) => {
           />
         ) : null}
       </Sidebar>
-      {showDialog ? activeDeviceModal : null}
+      {showDialog ? (
+        availableDevices.length > 1 ? (
+          <Dialog open={showDialog}>
+            <div className={cssClasses.Dialog}>
+              <h4>We found the following available devices:</h4>
+              <List>
+                {availableDevices.map((device) => {
+                  return (
+                    <ListItem
+                      button
+                      key={device.id}
+                      onClick={() => handleDeviceClick(device)}
+                    >
+                      {device.name + " - " + device.type}
+                    </ListItem>
+                  );
+                })}
+              </List>
+              <br />
+              <Button onClick={() => setShowDialog(false)}>BACK</Button>
+            </div>
+          </Dialog>
+        ) : (
+          <Dialog open={showDialog}>
+            <div className={cssClasses.Dialog}>
+              <h4>No active device found!</h4>
+              <p>Please open your Spotify on a device.</p>
+              <Button onClick={() => setShowDialog(false)}>OK</Button>
+            </div>
+          </Dialog>
+        )
+      ) : null}
       <div className={cssClasses.NavBar}>
         {currentRoom ? (
           <div>

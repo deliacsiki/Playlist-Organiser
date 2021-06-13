@@ -42,7 +42,12 @@ const getTrackSuccess = (state, { song }) => {
 const getAvailableDevices = (state, { devices }) => {
   return updateObject(state, {
     availableDevices: devices,
-    activeDevice: devices.length === 1 ? devices[0] : null,
+  });
+};
+
+const setActiveDevice = (state, { device }) => {
+  return updateObject(state, {
+    activeDevice: device,
   });
 };
 
@@ -76,7 +81,8 @@ const updateQueueList = (state, { queueList }) => {
 };
 const updateCurrentlyPlaying = (state, { song }) => {
   return updateObject(state, {
-    currentlyPlaying: { ...song },
+    currentlyPlaying:
+      song && Object.keys(song).length != 0 ? { ...song } : null,
   });
 };
 
@@ -96,6 +102,9 @@ const PlaylistReducer = (state = initialState, action) => {
 
     case actionTypes.GET_AVAILABLE_DEVICES:
       return getAvailableDevices(state, action);
+
+    case actionTypes.SET_ACTIVE_DEVICE:
+      return setActiveDevice(state, action);
 
     case actionTypes.ADD_NEW_SONG_TO_VOTING_LIST:
       return addSongToVotingList(state, action);
