@@ -157,7 +157,7 @@ const RoomPage = (props) => {
           onDelete={(id) => deleteRoomForUser(id, true)}
           gradientColor="#07BEB8"
         />
-        <hr />
+        <div className={cssClasses.HR}></div>
         <div className={cssClasses.SharedRoomsHeader}>Rooms you are in</div>
         <RoomList
           rooms={sharedRooms}

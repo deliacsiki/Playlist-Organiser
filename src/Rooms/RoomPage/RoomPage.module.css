@@ -4,10 +4,14 @@
   color: #333333;
 }
 
-.App hr {
-  margin: 2rem 0;
+.HR {
+  width: 80%;
+  height: 5px;
+  margin: 2rem auto;
+  background-color: #c4c4c4;
+  opacity: 0.2;
   border: 0;
-  border-bottom: 2px solid #ccc;
+  border-radius: 20px;
 }
 
 .Header {
@@ -28,6 +32,7 @@
 
 .SharedRoomsHeader {
   margin: 1rem;
+  margin-left: 2rem;
   font-weight: bold;
 }
 
