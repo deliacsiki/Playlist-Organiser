@@ -3,6 +3,8 @@ import React from "react";
 import { withStyles } from "@material-ui/core";
 import CheckmarkIcon from "../../../resources/icons/CheckmarkIcon";
 import CloseIcon from "../../../resources/icons/CloseIcon";
+import { Progress } from "react-sweet-progress";
+import "react-sweet-progress/lib/style.css";
 
 const styles = {
   root: {
@@ -65,13 +67,20 @@ const styles = {
     },
   },
   votingScores: {
-    display: "flex",
-    justifyContent: "flex-end",
+    fontWeight: "400",
     "& > div": {
-      width: "40px",
-      height: "40px",
-      textAlign: "center",
+      display: "flex",
+      "& span": {
+        marginRight: "1rem",
+      },
     },
+  },
+  votesYes: {
+    color: "#6BBE66",
+    marginBottom: "1rem",
+  },
+  votesNo: {
+    color: "#FF4141",
   },
 };
 
@@ -117,8 +126,42 @@ class VoteCard extends React.Component {
                 <React.Fragment>
                   <p>Current votes on this song:</p>
                   <div className={classes.votingScores}>
-                    <div className={classes.votesYes}>{song.votesYes}</div>
-                    <div className={classes.votesNo}>{song.votesNo}</div>
+                    <div className={classes.votesYes}>
+                      <span>{song.votesYes}</span>
+                      <Progress
+                        percent={song.percentageY}
+                        status="success"
+                        theme={{
+                          success: {
+                            color: "#6BBE66",
+                            symbol: (
+                              <CheckmarkIcon
+                                height="20px"
+                                width="20px"
+                              />
+                            ),
+                          },
+                        }}
+                      />
+                    </div>
+                    <div className={classes.votesNo}>
+                      <span>{song.votesNo}</span>
+                      <Progress
+                        percent={song.percentageN}
+                        status="error"
+                        theme={{
+                          error: {
+                            color: "#FF4141",
+                            symbol: (
+                              <CloseIcon
+                                height="20px"
+                                width="20px"
+                              />
+                            ),
+                          },
+                        }}
+                      />
+                    </div>
                   </div>
                 </React.Fragment>
               ) : (
