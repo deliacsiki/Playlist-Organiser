@@ -130,13 +130,13 @@ class VoteCard extends React.Component {
                       height="40px"
                       width="40px"
                       className={classes.checkmarkIcon}
-                      onClick={() => onVote("yes", song.id)}
+                      onClick={() => onVote("yes", song.data.id)}
                     />
                     <CloseIcon
                       height="40px"
                       width="40px"
                       className={classes.closeIcon}
-                      onClick={() => onVote("no", song.id)}
+                      onClick={() => onVote("no", song.data.id)}
                     />
                   </div>
                 </React.Fragment>

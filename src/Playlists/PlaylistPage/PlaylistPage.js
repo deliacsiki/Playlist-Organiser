@@ -210,21 +210,10 @@ const PlaylistPage = (props) => {
         clientId: localStorage.getItem("userId"),
         token: localStorage.getItem("token"),
         song: songId,
+        vote: `votesYes`,
+        songId: songId,
       })
     );
-    setTimeout(() => {
-      websocket.send(
-        JSON.stringify({
-          type: "client-voted-song",
-          roomId: currentRoomId,
-          clientId: localStorage.getItem("userId"),
-          token: localStorage.getItem("token"),
-          vote: `votesYes`,
-          songDataId: songId,
-        })
-      );
-    }, 300);
-    // getSong(songId);
   };
 
   const handleDeviceClick = (device) => {
