@@ -30,6 +30,19 @@
   margin-left: 1rem;
 }
 
+.UserInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+.UserProfile {
+  height: 40px;
+  width: 40px;
+  border-radius: 10px;
+}
+
 .SharedRoomsHeader {
   margin: 1rem;
   margin-left: 2rem;

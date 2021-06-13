@@ -13,6 +13,7 @@
   transition: 0.2s;
   box-shadow: 8px 8px 13px -5px rgba(0, 0, 0, 0.48);
   word-break: break-all;
+  position: relative;
 }
 
 .RoomCard p {
@@ -20,7 +21,7 @@
 }
 
 .PlusCard {
-  background-color: #25283D;
+  background-color: #25283d;
   font-weight: bolder;
   align-items: center;
   color: white;
@@ -31,16 +32,23 @@
   color: white;
   font-size: medium;
   font-weight: 500;
-  /* background: linear-gradient(
-    135deg,
-    rgba(37, 40, 61, 1) 19%,
-    rgba(7, 190, 184, 1) 100%
-  ); */
 }
 
 .RoomCard:hover {
   cursor: pointer;
   opacity: 0.7;
+}
+
+.CardFooter {
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
+}
+
+.UserProfile {
+  height: 25px;
+  width: 25px;
+  border-radius: 50px;
 }
 
 .DeleteBtn {

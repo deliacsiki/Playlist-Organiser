@@ -2,9 +2,7 @@ import * as actionTypes from "../ActionConstants";
 import { updateObject } from "../../common/utilities";
 
 const initialState = {
-  userId: null,
-  displayName: null,
-  email: null,
+  user: null,
   userRooms: null,
   loading: false,
   error: null,
@@ -20,14 +18,10 @@ const getUserDataError = (state, { error }) => {
   return updateObject(state, { error: error, loading: false });
 };
 
-const getUserDataSuccess = (state, { userId, displayName, email }) => {
-  localStorage.setItem("userId", userId);
-
+const getUserDataSuccess = (state, { user }) => {
   return updateObject(state, {
-    userId: userId,
-    displayName: displayName,
+    user: user,
     loading: false,
-    email: email,
   });
 };
 

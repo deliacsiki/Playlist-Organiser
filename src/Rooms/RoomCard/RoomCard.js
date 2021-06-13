@@ -3,6 +3,7 @@ import AddIcon from "@material-ui/icons/Add";
 import cssClasses from "./RoomCard.module.css";
 import { Button } from "@material-ui/core";
 import WhiteCloseBtn from "../../resources/icons/whiteX.svg";
+import ProfilePictureIcon from "../../UI/ProfilePictureIcon/ProfilePictureIcon";
 
 const RoomCard = ({
   name,
@@ -11,6 +12,7 @@ const RoomCard = ({
   deleteHandler,
   gradientColor,
   isActive,
+  usersInRoom,
 }) => {
   const classes = [cssClasses.RoomCard];
   const [isPlusCard, setIsPlusCard] = useState(type === "ADD_ROOM");
@@ -72,6 +74,31 @@ const RoomCard = ({
         onMouseLeave={handleMouseLeave}
       >
         {content}
+        {usersInRoom && usersInRoom.length != 0 ? (
+          <div className={cssClasses.CardFooter}>
+            {usersInRoom.map((user, index) => {
+              if (index < 4) {
+                if (user.profilePic)
+                  return (
+                    <img
+                      className={cssClasses.UserProfile}
+                      src={user.profilePic}
+                      key={user.id}
+                    />
+                  );
+
+                return (
+                  <ProfilePictureIcon
+                    name={user.name}
+                    key={user.id}
+                    className={cssClasses.UserProfile}
+                  />
+                );
+              }
+              return null;
+            })}
+          </div>
+        ) : null}
       </div>
       {!isPlusCard && toggleCloseBtn ? deleteBtn : null}
     </div>

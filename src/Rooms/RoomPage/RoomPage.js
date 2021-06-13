@@ -9,6 +9,7 @@ import * as URLConstants from "../../redux store/URLConstants";
 
 import cssClasses from "./RoomPage.module.css";
 import { Button, Dialog, DialogActions } from "@material-ui/core";
+import ProfilePictureIcon from "../../UI/ProfilePictureIcon/ProfilePictureIcon";
 import RoomForm from "../RoomForm/RoomForm";
 import JoinRoomForm from "../RoomForm/JoinRoomForm/JoinRoomForm";
 
@@ -54,9 +55,10 @@ const RoomPage = (props) => {
     return state.login.token != null;
   });
   // const checkState = useSelector((state) => state.login.stateReceived);
-  const displayName = useSelector((state) => state.user.displayName);
+  const user = useSelector((state) => state.user.user);
   const userRooms = useSelector((state) => state.user.userRooms);
   const sharedRooms = useSelector((state) => state.user.sharedRooms);
+  const loading = useSelector((state) => state.user.loading);
 
   useEffect(() => {
     // get URL params if any
@@ -144,30 +146,51 @@ const RoomPage = (props) => {
           </div>
         </Dialog>
       ) : null}
-      <div className={cssClasses.App}>
-        <div className={cssClasses.Header}>
-          {displayName ? <p>{displayName}</p> : null}
-          <Button onClick={logoutHandler}>LOG OUT</Button>
-        </div>
+      {loading ? (
+        <p>LOADING</p>
+      ) : (
+        <div className={cssClasses.App}>
+          <div className={cssClasses.Header}>
+            <div className={cssClasses.UserInfo}>
+              {user ? (
+                <React.Fragment>
+                  {user.profile ? (
+                    <img
+                      src={user.profile}
+                      className={cssClasses.UserProfile}
+                    />
+                  ) : (
+                    <ProfilePictureIcon
+                      name={user.displayName}
+                      className={cssClasses.UserProfile}
+                    />
+                  )}
+                  {user.displayName ? <p>{user.displayName}</p> : null}
+                </React.Fragment>
+              ) : null}
+            </div>
+            <Button onClick={logoutHandler}>LOG OUT</Button>
+          </div>
 
-        <RoomList
-          rooms={userRooms}
-          modalCloseRef={modalCloseRef}
-          formInModal={<RoomForm submitHandler={addNewRoomHandler} />}
-          onDelete={(id) => deleteRoomForUser(id, true)}
-          gradientColor="#07BEB8"
-        />
-        <div className={cssClasses.HR}></div>
-        <div className={cssClasses.SharedRoomsHeader}>Rooms you are in</div>
-        <RoomList
-          rooms={sharedRooms}
-          firstTileLabel="Join a room"
-          modalCloseRef={modalCloseRef}
-          formInModal={<JoinRoomForm submitHandler={joinRoomHandler} />}
-          onDelete={(id) => deleteRoomForUser(id, false)}
-          gradientColor="#BA274A"
-        />
-      </div>
+          <RoomList
+            rooms={userRooms}
+            modalCloseRef={modalCloseRef}
+            formInModal={<RoomForm submitHandler={addNewRoomHandler} />}
+            onDelete={(id) => deleteRoomForUser(id, true)}
+            gradientColor="#07BEB8"
+          />
+          <div className={cssClasses.HR}></div>
+          <div className={cssClasses.SharedRoomsHeader}>Rooms you are in</div>
+          <RoomList
+            rooms={sharedRooms}
+            firstTileLabel="Join a room"
+            modalCloseRef={modalCloseRef}
+            formInModal={<JoinRoomForm submitHandler={joinRoomHandler} />}
+            onDelete={(id) => deleteRoomForUser(id, false)}
+            gradientColor="#BA274A"
+          />
+        </div>
+      )}
     </React.Fragment>
   );
 };

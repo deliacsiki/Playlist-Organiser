@@ -60,6 +60,7 @@ const RoomList = ({
         ? rooms.map((room) => (
             <RoomCard
               isActive={room.isActive}
+              usersInRoom={room.usersInRoom}
               gradientColor={gradientColor}
               key={room._id}
               name={room.name}

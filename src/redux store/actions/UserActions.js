@@ -10,12 +10,10 @@ export const getUserDataStart = () => {
   };
 };
 
-export const getUserDataSuccess = ({ id, displayName, email }) => {
+export const getUserDataSuccess = (user) => {
   return {
     type: actionTypes.GET_USER_DATA_SUCCESS,
-    userId: id,
-    displayName: displayName,
-    email: email,
+    user: user,
   };
 };
 
@@ -35,9 +33,10 @@ export const getUserData = () => {
       .then((response) => {
         console.log("[UserAction] Successfully received user data");
         if (response.data) {
+          localStorage.setItem("userId", response.data.id);
           dispatch(getUserDataSuccess(response.data));
-          dispatch(getUserRooms());
-          dispatch(getUserSharedRooms());
+          dispatch(getUserRooms(response.data.id));
+          dispatch(getUserSharedRooms(response.data.id));
         }
       })
       .catch((error) => {
@@ -63,11 +62,11 @@ export const getUserRoomsError = (error) => {
   };
 };
 
-export const getUserRooms = () => {
+export const getUserRooms = (id = null) => {
   return (dispatch) => {
     let url = Constants.GET_ROOMS_BY_OWNER.replace(
       "{id}",
-      localStorage.getItem("userId")
+      id || localStorage.getItem("userId")
     );
     axios
       .get(url)
@@ -99,11 +98,11 @@ export const getUserSharedRoomsError = (error) => {
   };
 };
 
-export const getUserSharedRooms = () => {
+export const getUserSharedRooms = (id = null) => {
   return (dispatch) => {
     let url = Constants.GET_SHARED_ROOMS.replace(
       "{id}",
-      localStorage.getItem("userId")
+      id || localStorage.getItem("userId")
     );
     axios
       .get(url)

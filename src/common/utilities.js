@@ -50,3 +50,24 @@ export const capitalize = (str) => {
   const lower = str.toLowerCase();
   return str.charAt(0).toUpperCase() + lower.slice(1);
 };
+
+/*
+    Method that creates a random color
+*/
+export const getRandomColor = () => {
+  var letters = "0123456789ABCDEF";
+  var color = "#";
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
+/*
+    Method that gets the two initials of a name
+*/
+export const getInitialsFromName = (name) => {
+  var initials = name[0];
+  if (name.split(" ").length > 1) initials += name.split(" ")[1][0];
+  return initials.toUpperCase();
+};
