@@ -22,12 +22,10 @@
   margin-top: 1rem;
 }
 
-.CurrentSongSection {
-}
-
 .CurrentSongContainer {
   border-radius: 10px;
   background-color: #4f4f4f;
+  color: white;
   padding: 1rem;
 }
 

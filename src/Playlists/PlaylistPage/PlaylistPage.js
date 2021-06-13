@@ -363,7 +363,7 @@ const PlaylistPage = (props) => {
             ROOM CODE: <b>{currentRoom.code}</b>
           </div>
         ) : null}
-        <Button onClick={handleBackButton}>Back</Button>
+        <Button onClick={handleBackButton}>LEAVE ROOM</Button>
       </div>
       <div className={cssClasses.PlaylistPage}>
         <div className={cssClasses.CurrentSongSection}>

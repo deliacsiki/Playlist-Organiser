@@ -15,7 +15,8 @@ const RoomList = ({
   firstTileLabel = null,
   formInModal = null,
   modalCloseRef,
-  onDelete
+  onDelete,
+  gradientColor,
 }) => {
   // const [toggleBackdrop, setToggleBackdrop] = useState(false);
   const [toggleModal, setToggleModal] = useState(false);
@@ -37,7 +38,7 @@ const RoomList = ({
   const handleDeleteRoom = (event, roomId) => {
     // handle delete room
     event.preventDefault();
-    onDelete(roomId)
+    onDelete(roomId);
   };
 
   return (
@@ -58,6 +59,8 @@ const RoomList = ({
       {rooms
         ? rooms.map((room) => (
             <RoomCard
+              isActive={room.isActive}
+              gradientColor={gradientColor}
               key={room._id}
               name={room.name}
               clickHandler={(event) => handleOpenRoom(event, room._id)}

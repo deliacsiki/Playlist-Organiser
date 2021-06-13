@@ -19,6 +19,7 @@ const styles = {
   },
   rightSection: {
     paddingLeft: "1rem",
+    minWidth: "70%",
     "& h4": {
       marginTop: "0 !important",
     },
@@ -135,10 +136,7 @@ class VoteCard extends React.Component {
                           success: {
                             color: "#6BBE66",
                             symbol: (
-                              <CheckmarkIcon
-                                height="20px"
-                                width="20px"
-                              />
+                              <CheckmarkIcon height="20px" width="20px" />
                             ),
                           },
                         }}
@@ -152,12 +150,7 @@ class VoteCard extends React.Component {
                         theme={{
                           error: {
                             color: "#FF4141",
-                            symbol: (
-                              <CloseIcon
-                                height="20px"
-                                width="20px"
-                              />
-                            ),
+                            symbol: <CloseIcon height="20px" width="20px" />,
                           },
                         }}
                       />

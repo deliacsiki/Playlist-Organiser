@@ -46,9 +46,6 @@ const useStyles = makeStyles({
     height: "95%",
     background: "#f2f2f2",
     padding: "1rem",
-    "& > div:nth-child(2)": {
-      // height: "100vh",
-    },
   },
   closeButton: {
     position: "absolute",

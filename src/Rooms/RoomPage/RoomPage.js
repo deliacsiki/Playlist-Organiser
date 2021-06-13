@@ -155,6 +155,7 @@ const RoomPage = (props) => {
           modalCloseRef={modalCloseRef}
           formInModal={<RoomForm submitHandler={addNewRoomHandler} />}
           onDelete={(id) => deleteRoomForUser(id, true)}
+          gradientColor="#07BEB8"
         />
         <hr />
         <div className={cssClasses.SharedRoomsHeader}>Rooms you are in</div>
@@ -164,6 +165,7 @@ const RoomPage = (props) => {
           modalCloseRef={modalCloseRef}
           formInModal={<JoinRoomForm submitHandler={joinRoomHandler} />}
           onDelete={(id) => deleteRoomForUser(id, false)}
+          gradientColor="#BA274A"
         />
       </div>
     </React.Fragment>
