@@ -57,3 +57,63 @@
   margin: 1rem 2rem;
   padding: 1rem;
 }
+
+.LoadingScreen {
+  width: 100%;
+  height: 100%;
+}
+
+.loader {
+  margin-top: 1rem;
+  z-index: 10;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  margin-top: 13%;
+  border-radius: 50%;
+  padding: 1rem;
+  transform: rotate(180deg);
+  display: flex;
+  align-items: center;
+}
+
+.loader .stroke {
+  display: block;
+  position: relative;
+  background: #25283d;
+  height: 80%;
+  width: 1rem;
+  border-radius: 10px;
+  margin: 0 2px;
+  animation: animate 1.2s linear infinite;
+}
+@keyframes animate {
+  50% {
+    height: 20%;
+  }
+  100% {
+    height: 80%;
+  }
+}
+.stroke:nth-child(1) {
+  animation-delay: 0s;
+}
+.stroke:nth-child(2) {
+  animation-delay: 0.3s;
+}
+.stroke:nth-child(3) {
+  animation-delay: 0.6s;
+}
+.stroke:nth-child(4) {
+  animation-delay: 0.9s;
+}
+.stroke:nth-child(5) {
+  animation-delay: 0.6s;
+}
+.stroke:nth-child(6) {
+  animation-delay: 0.3s;
+}
+.stroke:nth-child(7) {
+  animation-delay: 0s;
+}

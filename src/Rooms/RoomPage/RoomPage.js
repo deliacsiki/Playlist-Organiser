@@ -147,7 +147,17 @@ const RoomPage = (props) => {
         </Dialog>
       ) : null}
       {loading ? (
-        <p>LOADING</p>
+        <div className={cssClasses.LoadingScreen}>
+          <div className={cssClasses.loader}>
+            <span className={cssClasses.stroke}></span>
+            <span className={cssClasses.stroke}></span>
+            <span className={cssClasses.stroke}></span>
+            <span className={cssClasses.stroke}></span>
+            <span className={cssClasses.stroke}></span>
+            <span className={cssClasses.stroke}></span>
+            <span className={cssClasses.stroke}></span>
+          </div>
+        </div>
       ) : (
         <div className={cssClasses.App}>
           <div className={cssClasses.Header}>
