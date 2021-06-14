@@ -45,7 +45,15 @@
 
 .SharedRoomsHeader {
   margin: 1rem;
+  margin-bottom: -1rem;
   margin-left: 2rem;
+  font-weight: bold;
+}
+
+.YourRoomsHeader {
+  margin-left: 2rem;
+  margin-bottom: -1rem;
+  margin-top: 2rem;
   font-weight: bold;
 }
 

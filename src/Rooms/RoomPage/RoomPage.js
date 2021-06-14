@@ -182,6 +182,7 @@ const RoomPage = (props) => {
             <Button onClick={logoutHandler}>LOG OUT</Button>
           </div>
 
+          <div className={cssClasses.YourRoomsHeader}>Your rooms</div>
           <RoomList
             rooms={userRooms}
             modalCloseRef={modalCloseRef}

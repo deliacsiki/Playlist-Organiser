@@ -19,11 +19,10 @@ const useStyles = makeStyles({
     position: "relative",
   },
   addRoomBtn: {
-    margin: "1rem",
+    margin: "auto auto 2rem auto",
     width: "50%",
-    position: "absolute",
-    bottom: 0,
-    left: "50%",
+    // backgroundColor: "#25283d",
+    color: "white",
   },
 });
 
