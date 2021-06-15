@@ -13,10 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     overflow: "hidden",
-    backgroundImage:
-      theme.palette.type === "light"
-        ? "linear-gradient(to right top, #bb6bd9, #c594e9, #d2b9f5, #e6ddfc, #ffffff)"
-        : "linear-gradient(to right top, #0582ca, #779dd8, #aebbe4, #dadbf1, #ffffff);",
+    backgroundImage: "linear-gradient(to right top, #07BEB8, #ffffff)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"

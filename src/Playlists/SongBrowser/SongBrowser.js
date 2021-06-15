@@ -70,6 +70,7 @@ const SongBrowser = ({ onSongSelect, onChange, onInputClear }) => {
             {fetchedSongs.map((song) => {
               return (
                 <SongCard
+                  withAlbumArt={true}
                   key={song.id}
                   song={song}
                   onClick={() => handleSongSelect(song.id)}

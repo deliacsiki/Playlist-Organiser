@@ -60,7 +60,7 @@ const SongCard = ({
         onClick={onClick}
         style={style}
       >
-        <img src={song.albumImg} className={classes.AlbumImg} />
+        <img src={song.albumImg || song.album.images[0].url} className={classes.AlbumImg} />
         <div style={{ width: "100%", position: "relative" }}>
           <p className={classes.SongName}>{song.name}</p>
           <p>{artistsLabel}</p>
